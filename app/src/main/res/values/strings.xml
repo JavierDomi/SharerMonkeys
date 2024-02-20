@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">SharerMonkeys</string>
+    <string name="app_name">FareShare</string>
+    <string name="login">Login</string>
+    <string name="sign_in">Sing in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="create_account">Create a new account</string>
+    <string name="dont_have_account">Don´t have account?</string>
+    <string name="new_account">Create new\nAccount</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_reistered">Already Registered?</string>
+    <string name="login_here">Log in here.</string>
+    <string name="enter_email">Enter the email.</string>
+    <string name="enter_password">Enter the password.</string>
+    <string name="account_created">Account created successfully!</string>
+    <string name="account_creation_fail">Account creation failed. Please check your credentials and try again.</string>
+    <string name="enter_email_password">Enter both email and password.</string>
+
 </resources>

@@ -13,7 +13,13 @@
         android:theme="@style/Theme.SharerMonkeys"
         tools:targetApi="31">
         <activity
+            android:name=".autentication.NewAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".autentication.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
