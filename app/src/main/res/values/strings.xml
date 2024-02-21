@@ -24,5 +24,13 @@
     <string name="mn_delete">Delete</string>
     <string name="hold_to_delete">Hold and item to delete it</string>
     <string name="btn_add_new">+</string>
+    <string name="hint_password_confirm">Confirm password</string>
+    <string name="et_error_password">Password is required</string>
+    <string name="et_error_email">Email is required</string>
+    <string name="enter_password_char">Password must be at least 5 characters</string>
+    <string name="enter_password_noMatch">Passwords do not match</string>
+    <string name="set_error_email_invalid">Please enter a valid email address</string>
+    <string name="et_enter_password_digit">Password must have some number</string>
+    <string name="et_enter_password_letter">The password must contain at least one letter</string>
 
 </resources>

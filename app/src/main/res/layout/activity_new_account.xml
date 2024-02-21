@@ -7,6 +7,7 @@
     android:padding="@dimen/margin"
     android:gravity="center"
     android:layout_height="match_parent"
+    android:background="#E6E6DD"
     tools:context=".autentication.NewAccountActivity">
 
     <TextView
@@ -47,6 +48,22 @@
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--CONFIRM PASSWORD-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_password_confirm"
+        android:textColorHint="@color/black"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etConfirmPasswordReg"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ProgressBar
