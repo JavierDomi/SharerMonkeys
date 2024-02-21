@@ -15,5 +15,8 @@
     <string name="account_created">Account created successfully!</string>
     <string name="account_creation_fail">Account creation failed. Please check your credentials and try again.</string>
     <string name="enter_email_password">Enter both email and password.</string>
+    <string name="title_activity_menut_test">menutTest</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 
 </resources>
