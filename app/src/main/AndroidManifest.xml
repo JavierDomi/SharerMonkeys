@@ -8,7 +8,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/fair_share2"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/fair_share2"
+        android:roundIcon="@drawable/fair_share_sin_fondo"
         android:supportsRtl="true"
         android:theme="@style/Theme.SharerMonkeys"
         tools:targetApi="31">

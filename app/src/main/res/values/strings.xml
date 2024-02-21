@@ -18,5 +18,11 @@
     <string name="title_activity_menut_test">menutTest</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="mn_cerrar_sesion">Log out</string>
+    <string name="mn_salir_app">Exit</string>
+    <string name="btn_yes">Yes</string>
+    <string name="mn_delete">Delete</string>
+    <string name="hold_to_delete">Hold and item to delete it</string>
+    <string name="btn_add_new">+</string>
 
 </resources>
