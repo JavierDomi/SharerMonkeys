@@ -46,7 +46,7 @@ public class NewAccountActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //progBar.setVisibility(View.GONE);
+
                 String email = String.valueOf(etEmail.getText());
                 String password = String.valueOf(etPassword.getText());
 
@@ -54,25 +54,6 @@ public class NewAccountActivity extends AppCompatActivity {
                     return;
                 }
 
-                // ESTA EL METODO validateEmail y validatePassword
-                /*if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-                    // Ambos email y contraseña están vacíos
-                    Toast.makeText(NewAccountActivity.this, R.string.enter_email_password, Toast.LENGTH_SHORT).show();
-                    progBar.setVisibility(View.GONE);
-                    return;
-                }
-                if (TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-                    // El email está vacío, pero la contraseña no
-                    Toast.makeText(NewAccountActivity.this, R.string.enter_email, Toast.LENGTH_SHORT).show();
-                    progBar.setVisibility(View.GONE);
-                    return;
-                }
-                if (!TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-                    // La contraseña está vacía, pero el email no
-                    Toast.makeText(NewAccountActivity.this, R.string.enter_password, Toast.LENGTH_SHORT).show();
-                    progBar.setVisibility(View.GONE);
-                    return;
-                }*/
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -137,7 +118,7 @@ public class NewAccountActivity extends AppCompatActivity {
 
     private boolean validateEmail(String email) {
         if(email.isEmpty()){
-            //saler error en editText hasta que no pones correo completo
+            //mostrar error en editText hasta que no pones correo completo
             etEmail.setError(getString(R.string.et_error_email));
             return false;
         }else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
