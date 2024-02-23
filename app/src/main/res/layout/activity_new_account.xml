@@ -10,6 +10,12 @@
     android:background="#E6E6DD"
     tools:context=".autentication.NewAccountActivity">
 
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/logosinfondo" />
+
     <TextView
         android:text="@string/new_account"
         android:textSize="@dimen/titles"
