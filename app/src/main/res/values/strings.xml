@@ -32,5 +32,6 @@
     <string name="set_error_email_invalid">Please enter a valid email address</string>
     <string name="et_enter_password_digit">Password must have some number</string>
     <string name="et_enter_password_letter">The password must contain at least one letter</string>
+    <string name="userName">User name</string>
 
 </resources>
