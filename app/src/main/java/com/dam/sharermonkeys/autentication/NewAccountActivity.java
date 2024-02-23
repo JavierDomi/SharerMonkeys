@@ -64,6 +64,8 @@ public class NewAccountActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
 
+
+
                         } else {
                             Toast.makeText(NewAccountActivity.this, R.string.account_creation_fail, Toast.LENGTH_SHORT).show();
                         }
