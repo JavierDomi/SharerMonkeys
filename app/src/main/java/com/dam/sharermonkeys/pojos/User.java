@@ -1,23 +1,17 @@
 package com.dam.sharermonkeys.pojos;
 
+import java.util.ArrayList;
+
 public class User {
 
-    private String idUser;
     private String username;
     private String email;
+    private ArrayList<FairShare> fairSharesList;
 
-    public User(String idUser, String username, String email) {
-        this.idUser = idUser;
+    public User(String username, String email, ArrayList<FairShare> fairSharesList) {
         this.username = username;
         this.email = email;
-    }
-
-    public String getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+        this.fairSharesList = fairSharesList;
     }
 
     public String getUsername() {
@@ -34,5 +28,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ArrayList<FairShare> getFairSharesList() {
+        return fairSharesList;
+    }
+
+    public void setFairSharesList(ArrayList<FairShare> fairSharesList) {
+        this.fairSharesList = fairSharesList;
     }
 }
