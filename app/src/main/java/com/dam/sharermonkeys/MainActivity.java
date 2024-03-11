@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.FairShareListAdapter;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference reference;
     FairShareListAdapter adapter;
     ArrayList<FairShare> list;
+    Button btnAddNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference("FairShares");
 
+        btnAddNew = findViewById(R.id.btnAddNew);
         recyclerView = findViewById(R.id.rvList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -77,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnAddNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, NewExpense.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

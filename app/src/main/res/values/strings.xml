@@ -34,5 +34,12 @@
     <string name="et_enter_password_letter">The password must contain at least one letter</string>
     <string name="userName">User name</string>
     <string name="fairShare_list_cancelled">Cancelled</string>
-
+    <string name="new_fairshare">New Expense</string>
+    <string name="title">Title</string>
+    <string name="amount">Amount</string>
+    <string name="date">Date</string>
+    <string name="expense_for">Who is this expense for?</string>
+    <string name="btn_save">Save</string>
+    <string name="select_user">Choose user</string>
+    <string name="payed_by">Payed by</string>
 </resources>
