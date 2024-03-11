@@ -33,5 +33,6 @@
     <string name="et_enter_password_digit">Password must have some number</string>
     <string name="et_enter_password_letter">The password must contain at least one letter</string>
     <string name="userName">User name</string>
+    <string name="fairShare_list_cancelled">Cancelled</string>
 
 </resources>

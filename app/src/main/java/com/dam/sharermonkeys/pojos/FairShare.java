@@ -2,14 +2,14 @@ package com.dam.sharermonkeys.pojos;
 
 import java.util.ArrayList;
 
-public class Fairshare {
+public class FairShare {
 
     private String idFairshare;
     private String name;
     private String description;
     private ArrayList<User> userList;
 
-    public Fairshare(String idFairshare, String name, String description, ArrayList<User> userList) {
+    public FairShare(String idFairshare, String name, String description, ArrayList<User> userList) {
         this.idFairshare = idFairshare;
         this.name = name;
         this.description = description;
