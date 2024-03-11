@@ -28,6 +28,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
+
     RecyclerView recyclerView;
     DatabaseReference reference;
     FairShareListAdapter adapter;
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        reference = FirebaseDatabase.getInstance().getReference("FairShares");
+        reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference("FairShares");
 
         recyclerView = findViewById(R.id.rvList);
         recyclerView.setHasFixedSize(true);

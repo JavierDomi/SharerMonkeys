@@ -9,6 +9,10 @@ public class FairShare {
     private String description;
     private ArrayList<User> userList;
 
+    // Default constructor (required by Firebase)
+    public FairShare() {
+    }
+
     public FairShare(String idFairshare, String name, String description, ArrayList<User> userList) {
         this.idFairshare = idFairshare;
         this.name = name;
@@ -16,7 +20,9 @@ public class FairShare {
         this.userList = userList;
     }
 
-    public String getIdFairshare() {return idFairshare;}
+    public String getIdFairshare() {
+        return idFairshare;
+    }
 
     public void setIdFairshare(String idFairshare) {
         this.idFairshare = idFairshare;
