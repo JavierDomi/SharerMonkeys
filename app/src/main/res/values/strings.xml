@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FareShare</string>
+    <string name="app_name">FairShare</string>
     <string name="login">Login</string>
     <string name="sign_in">Sign in</string>
     <string name="email">Email</string>
@@ -53,4 +53,6 @@
     <string name="participants">"Participants: "</string>
     <string name="members">Members</string>
     <string name="cant_add_sef_or_existing">You cannot add yourself nor an already existing user in the list</string>
+    <string name="user_object_created">User object created</string>
+    <string name="error_creating_user_object">Error creating user object</string>
 </resources>
