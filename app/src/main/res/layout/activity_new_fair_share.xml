@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/margin"
     android:background="@color/share"
-    tools:context=".NewExpense">
+    tools:context=".NewFairShare">
 
     <ImageView
         android:id="@+id/imageView"
@@ -23,7 +23,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_expense"
+        android:text="@string/new_fairshare"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
@@ -42,66 +42,68 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/etAmount"
+        android:id="@+id/etDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
-        android:hint="@string/amount"
+        android:hint="@string/description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
-    <!-- Asignar los atributos focusable en false y clickable en true.
-         Así no se podrá escribir en él, pero sí funcionará el evento de clic.
-         No usar disabled en true, porque no podrás usar el evento de clic.-->
-    <EditText
-        android:id="@+id/etDate"
-        android:hint="@string/date"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/llNewParticipant"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginTop="@dimen/margin"
-        android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
-        android:maxLines="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etAmount"/>
+        app:layout_constraintTop_toBottomOf="@+id/etDescription">
+
+        <EditText
+            android:id="@+id/etNewParticipant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/new_participant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etDescription" />
+
+        <Button
+            android:id="@+id/btnAddParticipant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/btn_add"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tvPayedBy"
+        android:id="@+id/tvParticipants"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
-        android:hint="@string/payed_by"
+        android:hint="@string/members"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDate"/>
+        app:layout_constraintTop_toBottomOf="@+id/llNewParticipant"/>
 
-    <Spinner
-        android:id="@+id/spinnerUsers"
-        android:layout_width="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvParticipants"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
-        android:prompt="@string/select_user"
+        android:padding="@dimen/margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPayedBy"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvParticipants"
+        app:layout_constraintBottom_toTopOf="@+id/btnSave" />
 
-    <TextView
-        android:id="@+id/tvExpenseFor"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
-        android:hint="@string/expense_for"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerUsers"/>
-
-    <!-- FALTARIA INCLUIR AQUI LOS CHECKBOX CON CADA USUARIO PARA SABER QUIEN PARTICIPA EN EL GASTO-->
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/btn_save"
