@@ -13,17 +13,28 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dam.sharermonkeys.MainActivity;
 import com.dam.sharermonkeys.R;
+import com.dam.sharermonkeys.pojos.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewAccountActivity extends AppCompatActivity {
     TextInputEditText etEmail;
     TextInputEditText etPassword;
     TextInputEditText etConfPass;
+    TextInputEditText etUsername;
     Button btnSignUp;
     TextView tvLogin;
     FirebaseAuth mAuth;
@@ -36,7 +47,8 @@ public class NewAccountActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        etConfPass= findViewById(R.id.etConfirmPasswordReg);
+        etConfPass = findViewById(R.id.etConfirmPasswordReg);
+        etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnSignUp = findViewById(R.id.btnSignUp);
@@ -59,6 +71,32 @@ public class NewAccountActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance(MainActivity.REALTIME_PATH);
+                            DatabaseReference usersRef = database.getReference("Users");
+
+                            Map<String, Object> newUser = new HashMap<>();
+                            newUser.put("email", etEmail.getText().toString());
+                            newUser.put("username", etUsername.getText().toString());
+                            newUser.put("participa_fairsahres", new ArrayList<>());
+
+                            usersRef.push().setValue(newUser)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+
+                                                    Toast.makeText(NewAccountActivity.this, "Realtime Done", Toast.LENGTH_SHORT);
+
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+
+                                            Toast.makeText(NewAccountActivity.this, "Error", Toast.LENGTH_SHORT);
+
+                                        }
+                                    });
+
                             Toast.makeText(NewAccountActivity.this, R.string.account_created, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
