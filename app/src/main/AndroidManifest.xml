@@ -19,9 +19,6 @@
             android:name=".NewExpense"
             android:exported="false" />
         <activity
-            android:name=".FairShareListActivity"
-            android:exported="false" />
-        <activity
             android:name=".autentication.NewAccountActivity"
             android:exported="false" />
         <activity

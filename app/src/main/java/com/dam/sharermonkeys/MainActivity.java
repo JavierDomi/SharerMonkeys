@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
 
+            builder.show();
+
         } else if (item.getItemId() == R.id.mnExit) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -149,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
 
+
+            builder.show();
 
         } else if (item.getItemId() == R.id.mnDelete) {
 

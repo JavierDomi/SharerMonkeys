@@ -14,11 +14,21 @@ import android.widget.Toast;
 
 import com.dam.sharermonkeys.MainActivity;
 import com.dam.sharermonkeys.R;
+import com.dam.sharermonkeys.pojos.FairShare;
+import com.dam.sharermonkeys.pojos.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
     TextInputEditText etEmail;
@@ -68,10 +78,62 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(i);
-                            finish();
+                            // Obtener datos del usuario desde la base de datos y pasarlos a la actividad principal
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            if (currentUser != null) {
+                                String userEmail = currentUser.getEmail();
+                                DatabaseReference userRef = FirebaseDatabase.getInstance(MainActivity.REALTIME_PATH).getReference("Users");
+                                userRef.orderByChild("email").equalTo(userEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.exists()) {
+                                            DataSnapshot userSnapshot = snapshot.getChildren().iterator().next(); // Obtiene el primer resultado (el único resultado esperado)
+                                            String username = userSnapshot.child("username").getValue(String.class);
+                                            String email = userSnapshot.child("email").getValue(String.class);
+
+                                            // Obtener la lista de FairShares
+                                            ArrayList<FairShare> fairSharesList = new ArrayList<>();
+                                            DataSnapshot fairSharesSnapshot = userSnapshot.child("participa_fairshares");
+                                            for (DataSnapshot fairShareSnapshot : fairSharesSnapshot.getChildren()) {
+                                                String fairShareId = String.valueOf(fairShareSnapshot.child("id_fairshare").getValue(Long.class));
+                                                String fairShareName = fairShareSnapshot.child("name").getValue(String.class);
+                                                String fairShareDescription = fairShareSnapshot.child("description").getValue(String.class);
+
+                                                // Obtener la lista de usuarios participantes en este FairShare
+                                                ArrayList<User> fairShareUsers = new ArrayList<>();
+                                                DataSnapshot fairShareUsersSnapshot = fairShareSnapshot.child("participants");
+                                                for (DataSnapshot participantSnapshot : fairShareUsersSnapshot.getChildren()) {
+                                                    String userUsername = participantSnapshot.child("username").getValue(String.class);
+                                                    String userEmail = participantSnapshot.child("email").getValue(String.class);
+
+                                                    // Crear objeto User
+                                                    User user = new User(userUsername, userEmail, null); // Aquí puedes completar la lista de FairShares si es necesario
+                                                    fairShareUsers.add(user);
+                                                }
+
+
+                                                // Crear objeto FairShare y completar la lista de usuarios
+                                                FairShare fairShare = new FairShare(fairShareId, fairShareName, fairShareDescription, fairShareUsers);
+                                                fairSharesList.add(fairShare);
+                                            }
+
+                                            // Crear objeto User
+                                            User user = new User(username, email, fairSharesList);
+
+                                            // Pasar el objeto User a la actividad principal
+                                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                            i.putExtra("user", user);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(LoginActivity.this, "Error al obtener datos del usuario", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                         }
