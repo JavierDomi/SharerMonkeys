@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SharerMonkeys"
         tools:targetApi="31">
+
+        <activity android:name=".ListExpenses"
+            android:exported="false"/>
         <activity
             android:name=".adapterutils.ParticipantListAdapter"
             android:exported="false" />
