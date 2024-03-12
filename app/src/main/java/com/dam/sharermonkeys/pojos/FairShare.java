@@ -16,6 +16,9 @@ public class FairShare {
         this.userList = userList;
     }
 
+    public FairShare() {
+    }
+
     public String getIdFairshare() {return idFairshare;}
 
     public void setIdFairshare(String idFairshare) {
