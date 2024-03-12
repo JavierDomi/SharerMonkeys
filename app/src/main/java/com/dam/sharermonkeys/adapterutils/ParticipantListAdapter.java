@@ -7,13 +7,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dam.sharermonkeys.R;
+import com.dam.sharermonkeys.pojos.User;
+
 import java.util.ArrayList;
 
 public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantListAdapter.ItemVH> {
 
-    private ArrayList<String> participantsList;
+    private ArrayList<User> participantsList;
 
-    public ParticipantListAdapter(ArrayList<String> participantsList) {
+    public ParticipantListAdapter(ArrayList<User> participantsList) {
         this.participantsList = participantsList;
     }
 
@@ -26,8 +28,9 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
 
     @Override
     public void onBindViewHolder(@NonNull ItemVH holder, int position) {
-        String email = participantsList.get(position);
-        holder.tvEmail.setText(email);
+        User user = participantsList.get(position);
+        holder.tvUsername.setText(user.getUsername());
+        holder.tvEmail.setText(user.getEmail());
     }
 
     @Override
@@ -36,11 +39,13 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
     }
 
     static class ItemVH extends RecyclerView.ViewHolder {
-        TextView tvEmail;
+        TextView tvEmail, tvUsername;
 
         public ItemVH(@NonNull View itemView) {
             super(itemView);
-            tvEmail = itemView.findViewById(R.id.tvEmail);
+            tvEmail = itemView.findViewById(R.id.tvEmailAdapter);
+            tvUsername = itemView.findViewById(R.id.tvUsernameAdapter);
         }
     }
 }
+

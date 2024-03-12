@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dam.sharermonkeys.adapterutils.ParticipantListAdapter;
 import com.dam.sharermonkeys.pojos.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,14 +31,17 @@ public class NewFairShare extends AppCompatActivity {
     Button btnAddParticipant;
     RecyclerView recyclerView;
     ParticipantListAdapter adapter;
-    ArrayList<String> participantsList; //TODO REVISAR SI ESTA BIEN
+    ArrayList<User> participantsList;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_fair_share);
 
-        reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference("FairShares");
+        mAuth = FirebaseAuth.getInstance();
+
+        reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference("Users");
 
         etNewParticipant = findViewById(R.id.etNewParticipant);
         btnAddParticipant = findViewById(R.id.btnAddParticipant);
@@ -47,7 +52,6 @@ public class NewFairShare extends AppCompatActivity {
         participantsList = new ArrayList<>();
 
         adapter = new ParticipantListAdapter(participantsList);
-
         recyclerView.setAdapter(adapter);
 
         btnAddParticipant.setOnClickListener(new View.OnClickListener() {
@@ -65,30 +69,45 @@ public class NewFairShare extends AppCompatActivity {
             return;
         }
 
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String userEmail = currentUser.getEmail();
+
+        DatabaseReference usersRef = FirebaseDatabase.getInstance(REALTIME_PATH).getReference().child("Users");
         usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // El correo electrónico existe en Firebase
-                    // Agregar el correo electrónico a la lista
-                    participantsList.add(email);
-                    // Notificar al RecyclerView que los datos han cambiado
-                    adapter.notifyDataSetChanged();
-                    // Mostrar mensaje de éxito
-                    Toast.makeText(NewFairShare.this, "Successfully added", Toast.LENGTH_SHORT).show();
-                } else {
-                    // El correo electrónico no existe en Firebase
-                    Toast.makeText(NewFairShare.this, "Participant is not registered in the application", Toast.LENGTH_SHORT).show();
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        User user = userSnapshot.getValue(User.class);
+                        if (user != null && user.getEmail().equals(email)) {
+                            if (!user.getEmail().equals(userEmail) && !isUserAlreadyAdded(user)) {
+                                participantsList.add(user); // Agregar el objeto User completo
+                                adapter.notifyDataSetChanged();
+                                Toast.makeText(NewFairShare.this, "Successfully added", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+                                Toast.makeText(NewFairShare.this, R.string.cant_add_sef_or_existing, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
                 }
+                Toast.makeText(NewFairShare.this, "User not registered", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Manejar el error si ocurre
                 Toast.makeText(NewFairShare.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean isUserAlreadyAdded(User user) {
+        for (User participant : participantsList) {
+            if (participant.getEmail().equals(user.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

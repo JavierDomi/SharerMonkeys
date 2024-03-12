@@ -15,6 +15,8 @@ public class User implements Serializable {
         this.fairSharesList = fairSharesList;
     }
 
+    public User(){}
+
     public String getUsername() {
         return username;
     }

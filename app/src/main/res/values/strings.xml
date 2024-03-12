@@ -32,12 +32,12 @@
     <string name="set_error_email_invalid">Please enter a valid email address</string>
     <string name="et_enter_password_digit">Password must have some number</string>
     <string name="et_enter_password_letter">The password must contain at least one letter</string>
-    <string name="user_name">User name</string>
+    <string name="user_name">Username</string>
     <string name="fairShare_list_cancelled">Cancelled</string>
     <string name="tit_dialog_exit">Confirm exit</string>
     <string name="message_dialog_exit">Are you sure you want to leave?</string>
     <string name="btn_no">No</string>
-    <string name="new_fairshare">New Expense</string>
+    <string name="new_fairshare">New FairShare</string>
     <string name="title">Title</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
@@ -46,4 +46,11 @@
     <string name="select_user">Choose user</string>
     <string name="payed_by">Payed by</string>
     <string name="error_fetch_user_main">Unable to fetch user</string>
+    <string name="new_expense">New expense</string>
+    <string name="description">Description</string>
+    <string name="new_participant">New participant</string>
+    <string name="btn_add">Add</string>
+    <string name="participants">"Participants: "</string>
+    <string name="members">Members</string>
+    <string name="cant_add_sef_or_existing">You cannot add yourself nor an already existing user in the list</string>
 </resources>
