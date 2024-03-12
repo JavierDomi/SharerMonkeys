@@ -1,8 +1,9 @@
 package com.dam.sharermonkeys.pojos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class FairShare {
+public class FairShare implements Serializable {
 
     private String idFairshare;
     private String name;

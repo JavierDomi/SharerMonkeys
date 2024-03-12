@@ -77,20 +77,20 @@ public class NewExpense extends AppCompatActivity {
     private void mostrarDialogoSelectorFecha() {
         // Obtener la fecha actual
         final Calendar miCalendario = Calendar.getInstance();
-        int año = miCalendario.get(Calendar.YEAR);
-        int mes = miCalendario.get(Calendar.MONTH);
-        int dia = miCalendario.get(Calendar.DAY_OF_MONTH);
+        int year = miCalendario.get(Calendar.YEAR);
+        int month = miCalendario.get(Calendar.MONTH);
+        int day = miCalendario.get(Calendar.DAY_OF_MONTH);
 
         // Crear el DatePickerDialog
         DatePickerDialog dialogoSelectorFecha = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int añoSeleccionado, int mesSeleccionado, int diaSeleccionado) {
+                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
                         // Actualizar el EditText con la fecha seleccionada en el formato deseado
-                        String fechaFormateada = diaSeleccionado + "/" + (mesSeleccionado + 1) + "/" + añoSeleccionado;
+                        String fechaFormateada = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
                         etDate.setText(fechaFormateada);
                     }
-                }, año, mes, dia);
+                }, year, month, day);
 
         // Mostrar el DatePickerDialog
         dialogoSelectorFecha.show();
