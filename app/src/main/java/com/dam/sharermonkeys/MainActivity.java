@@ -116,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            builder.show();
+
         } else if (item.getItemId() == R.id.mnExit) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -130,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+
+            builder.show();
 
         } else if (item.getItemId() == R.id.mnDelete) {
 
