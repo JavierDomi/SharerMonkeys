@@ -13,10 +13,13 @@
         android:theme="@style/Theme.SharerMonkeys"
         tools:targetApi="31">
         <activity
-            android:name=".NewExpense"
+            android:name=".adapterutils.ParticipantListAdapter"
             android:exported="false" />
         <activity
-            android:name=".FairShareListActivity"
+            android:name=".NewFairShare"
+            android:exported="false" />
+        <activity
+            android:name=".NewExpense"
             android:exported="false" />
         <activity
             android:name=".autentication.NewAccountActivity"

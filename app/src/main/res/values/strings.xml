@@ -32,9 +32,9 @@
     <string name="set_error_email_invalid">Please enter a valid email address</string>
     <string name="et_enter_password_digit">Password must have some number</string>
     <string name="et_enter_password_letter">The password must contain at least one letter</string>
-    <string name="userName">User name</string>
+    <string name="user_name">User name</string>
     <string name="fairShare_list_cancelled">Cancelled</string>
-    <string name="new_fairshare">New Expense</string>
+    <string name="new_fairshare">New FairShare</string>
     <string name="title">Title</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
@@ -42,4 +42,9 @@
     <string name="btn_save">Save</string>
     <string name="select_user">Choose user</string>
     <string name="payed_by">Payed by</string>
+    <string name="new_expense">New Expense</string>
+    <string name="description">Description</string>
+    <string name="participants">Participants:</string>
+    <string name="new_participant">New participant email</string>
+    <string name="btn_add">Add</string>
 </resources>
