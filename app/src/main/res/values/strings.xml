@@ -34,5 +34,8 @@
     <string name="et_enter_password_letter">The password must contain at least one letter</string>
     <string name="userName">User name</string>
     <string name="fairShare_list_cancelled">Cancelled</string>
+    <string name="tit_dialog_exit">Confirm exit</string>
+    <string name="message_dialog_exit">Are you sure you want to leave?</string>
+    <string name="btn_no">No</string>
 
 </resources>

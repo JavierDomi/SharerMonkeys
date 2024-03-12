@@ -92,9 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.mnLogOut) {
 
+
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setCancelable(false);
-
+            builder.setTitle(R.string.tit_dialog_exit);
+            builder.setMessage(R.string.message_dialog_exit);
             builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -104,21 +106,38 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+            builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
         } else if (item.getItemId() == R.id.mnExit) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setCancelable(false);
 
+            builder.setTitle(R.string.tit_dialog_exit);
+            builder.setMessage(R.string.message_dialog_exit);
             builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
                     finish();
                     System.exit(0);
-
                 }
             });
+            builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
 
         } else if (item.getItemId() == R.id.mnDelete) {
 
