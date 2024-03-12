@@ -1,8 +1,9 @@
 package com.dam.sharermonkeys.pojos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Expense {
+public class Expense implements Serializable {
 
     private String name;
     private String idUser; // payer
@@ -10,6 +11,7 @@ public class Expense {
     private int edExpense;
     private double amount;
     private ArrayList<User> notPayerList;
+
 
     public Expense(String name, String idUser, int idFairshaer, int edExpense, double amount, ArrayList<User> notPayerList) {
         this.name = name;
@@ -20,9 +22,13 @@ public class Expense {
         this.notPayerList = notPayerList;
     }
 
+    public Expense() {
+    }
+
     public String getName() {
         return name;
     }
+
 
     public void setName(String name) {
         this.name = name;
