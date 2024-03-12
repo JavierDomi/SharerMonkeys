@@ -1,21 +1,21 @@
 <resources>
     <string name="app_name">FareShare</string>
     <string name="login">Login</string>
-    <string name="sign_in">Sing in</string>
+    <string name="sign_in">Sign in</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="create_account">Create a new account</string>
-    <string name="dont_have_account">Don´t have account?</string>
+    <string name="dont_have_account">Don´t have an account?</string>
     <string name="new_account">Create new\nAccount</string>
     <string name="sign_up">Sign up</string>
-    <string name="already_reistered">Already Registered?</string>
+    <string name="already_registered">Already Registered?</string>
     <string name="login_here">Log in here.</string>
     <string name="enter_email">Enter the email.</string>
     <string name="enter_password">Enter the password.</string>
     <string name="account_created">Account created successfully!</string>
     <string name="account_creation_fail">Account creation failed. Please check your credentials and try again.</string>
     <string name="enter_email_password">Enter both email and password.</string>
-    <string name="title_activity_menut_test">menutTest</string>
+    <string name="title_activity_menut_test">Menu Test</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="mn_cerrar_sesion">Log out</string>
@@ -34,7 +34,10 @@
     <string name="et_enter_password_letter">The password must contain at least one letter</string>
     <string name="user_name">User name</string>
     <string name="fairShare_list_cancelled">Cancelled</string>
-    <string name="new_fairshare">New FairShare</string>
+    <string name="tit_dialog_exit">Confirm exit</string>
+    <string name="message_dialog_exit">Are you sure you want to leave?</string>
+    <string name="btn_no">No</string>
+    <string name="new_fairshare">New Expense</string>
     <string name="title">Title</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
@@ -42,9 +45,5 @@
     <string name="btn_save">Save</string>
     <string name="select_user">Choose user</string>
     <string name="payed_by">Payed by</string>
-    <string name="new_expense">New Expense</string>
-    <string name="description">Description</string>
-    <string name="participants">Participants:</string>
-    <string name="new_participant">New participant email</string>
-    <string name="btn_add">Add</string>
+    <string name="error_fetch_user_main">Unable to fetch user</string>
 </resources>
