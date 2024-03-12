@@ -16,7 +16,7 @@
             android:name=".ListExpenses"
             android:exported="false" />
         <activity
-            android:name=".DetailsExpense"
+            android:name=".NewExpense"
             android:exported="false" />
         <activity
             android:name=".FairShareListActivity"
