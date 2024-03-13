@@ -58,21 +58,18 @@ public class LoginActivity extends AppCompatActivity {
                 String email = String.valueOf(etEmail.getText());
                 String password = String.valueOf(etPassword.getText());
 
-                if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-                    Toast.makeText(LoginActivity.this, "Enter both email and password", Toast.LENGTH_SHORT).show();
+
+                if (TextUtils.isEmpty(email)) {
+                    etEmail.setError(getString(R.string.enter_email));
                     progBar.setVisibility(View.GONE);
                     return;
                 }
-                if (TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-                    Toast.makeText(LoginActivity.this, "Enter the email", Toast.LENGTH_SHORT).show();
-                    progBar.setVisibility(View.GONE);
-                    return;
-                }
-                if (!TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+                if (TextUtils.isEmpty(password)) {
                     Toast.makeText(LoginActivity.this, "Enter the password", Toast.LENGTH_SHORT).show();
                     progBar.setVisibility(View.GONE);
                     return;
                 }
+
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

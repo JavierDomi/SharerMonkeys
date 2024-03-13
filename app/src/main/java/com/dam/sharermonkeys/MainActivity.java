@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.fairshare2_small);
         actionBar.setDisplayUseLogoEnabled(true); // Habilita el uso del logo en lugar del título
         actionBar.setDisplayShowHomeEnabled(true); // Muestra el logo en la barra de acción
-        //actionBar.setTitle((Html.fromHtml("<font color=\"#999999\">" + getString(R.string.app_name) + "</font>")));
+        actionBar.setTitle((Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>")));
 
 
         btnAddNew = findViewById(R.id.btnAddNew);
