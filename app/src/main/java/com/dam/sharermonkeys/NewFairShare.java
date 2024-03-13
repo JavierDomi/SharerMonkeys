@@ -1,5 +1,6 @@
 package com.dam.sharermonkeys;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -13,7 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dam.sharermonkeys.adapterutils.ParticipantListAdapter;
+import com.dam.sharermonkeys.pojos.FairShare;
 import com.dam.sharermonkeys.pojos.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,13 +26,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewFairShare extends AppCompatActivity {
 
     public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
     DatabaseReference reference;
-    EditText etNewParticipant;
-    Button btnAddParticipant;
+    EditText etNewParticipant, etTitle, etDesc;
+    Button btnAddParticipant, btnSave;
     RecyclerView recyclerView;
     ParticipantListAdapter adapter;
     ArrayList<User> participantsList;
@@ -44,7 +50,12 @@ public class NewFairShare extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference("Users");
 
         etNewParticipant = findViewById(R.id.etNewParticipant);
+        etTitle = findViewById(R.id.etTitle);
+        etDesc = findViewById(R.id.etDescription);
+
         btnAddParticipant = findViewById(R.id.btnAddParticipant);
+        btnSave = findViewById(R.id.btnSave);
+
         recyclerView = findViewById(R.id.rvParticipants);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -60,12 +71,51 @@ public class NewFairShare extends AppCompatActivity {
                 addParticipant();
             }
         });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance(MainActivity.REALTIME_PATH);
+                DatabaseReference usersRef = database.getReference("FairShares");
+
+                String title = etTitle.getText().toString(),
+                desc = etDesc.getText().toString();
+
+                addParticipantCreator();
+
+                Map<String, Object> newFairShare = new HashMap<>();
+                newFairShare.put("name", title);
+                newFairShare.put("description", desc);
+                newFairShare.put("participants", participantsList);
+
+                usersRef.push().setValue(newFairShare).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                        clearFields();
+
+                        Toast.makeText(NewFairShare.this, R.string.new_fairShare_uploaded, Toast.LENGTH_SHORT).show();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(NewFairShare.this, R.string.unable_to_upload_fairShare, Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+
+        });
     }
 
     private void addParticipant() {
         final String email = etNewParticipant.getText().toString().trim();
         if (!isValidEmail(email)) {
-            Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.invalid_email, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -83,6 +133,9 @@ public class NewFairShare extends AppCompatActivity {
                             if (!user.getEmail().equals(userEmail) && !isUserAlreadyAdded(user)) {
                                 participantsList.add(user); // Agregar el objeto User completo
                                 adapter.notifyDataSetChanged();
+
+                                etNewParticipant.setText("");
+
                                 Toast.makeText(NewFairShare.this, "Successfully added", Toast.LENGTH_SHORT).show();
                                 return;
                             } else {
@@ -113,5 +166,26 @@ public class NewFairShare extends AppCompatActivity {
 
     private boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    public void clearFields() {
+
+        etTitle.setText("");
+        etDesc.setText("");
+        etNewParticipant.setText("");
+
+    }
+
+    public void addParticipantCreator() {
+
+        Intent intent = getIntent();
+        if(intent != null && intent.hasExtra("userLogin")) {
+            User user = (User) intent.getSerializableExtra("userLogin");
+            participantsList.add(user);
+            adapter.notifyDataSetChanged(); // Asegúrate de notificar al adaptador después de modificar la lista
+        } else {
+            Toast.makeText(this, "No user found in intent", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

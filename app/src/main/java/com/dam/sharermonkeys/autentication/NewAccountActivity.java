@@ -85,14 +85,14 @@ public class NewAccountActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(Void unused) {
 
-                                                    Toast.makeText(NewAccountActivity.this, "Realtime Done", Toast.LENGTH_SHORT);
+                                                    Toast.makeText(NewAccountActivity.this, R.string.user_object_created, Toast.LENGTH_SHORT);
 
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
 
-                                            Toast.makeText(NewAccountActivity.this, "Error", Toast.LENGTH_SHORT);
+                                            Toast.makeText(NewAccountActivity.this, R.string.error_creating_user_object, Toast.LENGTH_SHORT);
 
                                         }
                                     });

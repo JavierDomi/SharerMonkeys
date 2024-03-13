@@ -1,6 +1,7 @@
 package com.dam.sharermonkeys.adapterutils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dam.sharermonkeys.ListExpenses;
 import com.dam.sharermonkeys.R;
+import com.dam.sharermonkeys.pojos.Expense;
 import com.dam.sharermonkeys.pojos.FairShare;
 
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdapter.ItemVH> {
 
     ArrayList<FairShare> fairShareList;
+    ArrayList<Expense> listExpenses;
     Context context;
 
     public FairShareListAdapter(ArrayList<FairShare> fairShareList, Context context) {
@@ -47,11 +51,21 @@ public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdap
         holder.tvId.setText(fairShare.getIdFairshare());
         holder.tvDescription.setText(fairShare.getDescription());
 
+        //Creamos un onClickListener para que cuando sea clicado un elemento del RecyclerView nos llevemos los datos a la siguiente vista
         holder.recCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 // TODO PASAR DATOS SIGUIENTE ACTIVITY
+                FairShare fairShare = fairShareList.get(position);
+                Intent intent = new Intent(context, ListExpenses.class);
+                intent.putExtra("id_fairshare", fairShare.getIdFairshare());
+                context.startActivity(intent);
+
+
+
+
+
 
             }
         });
