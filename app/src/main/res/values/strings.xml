@@ -58,6 +58,10 @@
     <string name="unable_to_upload_fairShare">Unable to upload new FairShare</string>
     <string name="new_fairShare_uploaded">New fairShare uploaded!</string>
     <string name="invalid_email">Invalid email adress</string>
+
     <string name="user_nametv">"Username: "</string>
     <string name="emailtv">"Email: "</string>
+
+    <string name="complete_all_fields_new_fairShare">You must fill in all fields</string>
+
 </resources>

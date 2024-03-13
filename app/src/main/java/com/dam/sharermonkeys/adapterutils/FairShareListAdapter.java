@@ -51,36 +51,28 @@ public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdap
         holder.tvId.setText(fairShare.getIdFairshare());
         holder.tvDescription.setText(fairShare.getDescription());
 
-        //Creamos un onClickListener para que cuando sea clicado un elemento del RecyclerView nos llevemos los datos a la siguiente vista
         holder.recCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // TODO PASAR DATOS SIGUIENTE ACTIVITY
-                FairShare fairShare = fairShareList.get(position);
+                FairShare fairShare = fairShareList.get(holder.getAdapterPosition());
                 Intent intent = new Intent(context, ListExpenses.class);
                 intent.putExtra("id_fairshare", fairShare.getIdFairshare());
                 context.startActivity(intent);
-
-
-
-
-
-
             }
         });
 
         holder.recCard.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-
-                // TODO BORRAR GRUPO DE GASTOS EN LONG CLICK
+                // TODO Delete expense group on long click
 
                 return false;
             }
         });
 
     }
+
 
     @Override
     public int getItemCount() {return fairShareList.size(); }
