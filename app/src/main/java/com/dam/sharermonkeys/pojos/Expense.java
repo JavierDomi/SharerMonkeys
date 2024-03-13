@@ -7,17 +7,17 @@ public class Expense implements Serializable {
 
     private String name;
     private String idUser; // payer
-    private int idFairshaer;
-    private int edExpense;
+    private String idFairshaer;
+    private String idExpense;
     private double amount;
-    private ArrayList<User> notPayerList;
+    private ArrayList<User> notPayerList; // email ,username
 
 
-    public Expense(String name, String idUser, int idFairshaer, int edExpense, double amount, ArrayList<User> notPayerList) {
+    public Expense(String name, String idUser, String idFairshaer, String idExpense, double amount, ArrayList<User> notPayerList) {
         this.name = name;
         this.idUser = idUser;
         this.idFairshaer = idFairshaer;
-        this.edExpense = edExpense;
+        this.idExpense = idExpense;
         this.amount = amount;
         this.notPayerList = notPayerList;
     }
@@ -42,20 +42,20 @@ public class Expense implements Serializable {
         this.idUser = idUser;
     }
 
-    public int getIdFairshaer() {
+    public String getIdFairshaer() {
         return idFairshaer;
     }
 
-    public void setIdFairshaer(int idFairshaer) {
+    public void setIdFairshaer(String idFairshaer) {
         this.idFairshaer = idFairshaer;
     }
 
-    public int getEdExpense() {
-        return edExpense;
+    public String getEdExpense() {
+        return idExpense;
     }
 
-    public void setEdExpense(int edExpense) {
-        this.edExpense = edExpense;
+    public void setEdExpense(String edExpense) {
+        this.idExpense = edExpense;
     }
 
     public double getAmount() {
