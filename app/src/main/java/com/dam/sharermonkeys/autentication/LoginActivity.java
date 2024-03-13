@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                                             ArrayList<FairShare> fairSharesList = new ArrayList<>();
                                             DataSnapshot fairSharesSnapshot = userSnapshot.child("participa_fairshares");
                                             for (DataSnapshot fairShareSnapshot : fairSharesSnapshot.getChildren()) {
-                                                String fairShareId = String.valueOf(fairShareSnapshot.child("id_fairshare").getValue(Long.class));
+                                                String fairShareId = fairShareSnapshot.child("id_fairshare").getValue(String.class);
                                                 String fairShareName = fairShareSnapshot.child("name").getValue(String.class);
                                                 String fairShareDescription = fairShareSnapshot.child("description").getValue(String.class);
 

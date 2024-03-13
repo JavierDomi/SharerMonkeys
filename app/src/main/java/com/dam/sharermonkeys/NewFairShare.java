@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +66,8 @@ public class NewFairShare extends AppCompatActivity {
         adapter = new ParticipantListAdapter(participantsList);
         recyclerView.setAdapter(adapter);
 
+        addParticipantCreator();
+
         btnAddParticipant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,30 +85,64 @@ public class NewFairShare extends AppCompatActivity {
                 String title = etTitle.getText().toString(),
                 desc = etDesc.getText().toString();
 
-                addParticipantCreator();
+                //addParticipantCreator();
 
-                Map<String, Object> newFairShare = new HashMap<>();
-                newFairShare.put("name", title);
-                newFairShare.put("description", desc);
-                newFairShare.put("participants", participantsList);
+                if (!title.equals("") && !desc.equals("") && !participantsList.isEmpty()) {
 
-                usersRef.push().setValue(newFairShare).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
+                    Map<String, Object> newFairShare = new HashMap<>();
+                    newFairShare.put("name", title);
+                    newFairShare.put("description", desc);
+                    newFairShare.put("participants", participantsList);
 
-                        clearFields();
+                    usersRef.push().setValue(newFairShare).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
 
-                        Toast.makeText(NewFairShare.this, R.string.new_fairShare_uploaded, Toast.LENGTH_SHORT).show();
+                            clearFields();
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(NewFairShare.this, R.string.new_fairShare_uploaded, Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(NewFairShare.this, R.string.unable_to_upload_fairShare, Toast.LENGTH_SHORT).show();
+                            for (User participant : participantsList) {
+                                Query query = reference.orderByChild("email").equalTo(participant.getEmail());
+                                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.exists()) {
+                                            for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                                                String userId = userSnapshot.getKey();
+                                                DatabaseReference userRef = reference.child(userId).child("participa_fairshares");
+                                                Map<String, Object> fairShareMap = new HashMap<>();
+                                                fairShareMap.put("id_fairshare", usersRef.getKey()); // El ID del nuevo fairShare
+                                                fairShareMap.put("name", title); // Nombre del fairShare
+                                                fairShareMap.put("description", desc); // Descripción del fairShare
+                                                userRef.push().setValue(fairShareMap);
+                                            }
+                                        }
+                                    }
 
-                    }
-                });
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Toast.makeText(NewFairShare.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Toast.makeText(NewFairShare.this, R.string.unable_to_upload_fairShare, Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+                } else {
+
+                    Toast.makeText(NewFairShare.this, R.string.complete_all_fields_new_fairShare, Toast.LENGTH_SHORT).show();
+
+                }
 
             }
 
