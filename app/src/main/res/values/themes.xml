@@ -4,6 +4,12 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/fair_grey</item>
+        <!-- Estilo personalizado para los puntos de desbordamiento -->
+        <item name="android:actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
+
+
+
+
     </style>
 
     <style name="Theme.SharerMonkeys" parent="Base.Theme.SharerMonkeys" />
@@ -18,4 +24,9 @@
     <style name="Theme.SharerMonkeys.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <color name="fair_grey">#2B2B2B</color>
+
+    <!-- Estilo para los puntos de desbordamiento -->
+    <style name="MyOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/share</item>
+    </style>
 </resources>
