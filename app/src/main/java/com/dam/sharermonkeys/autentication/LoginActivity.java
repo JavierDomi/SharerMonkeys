@@ -55,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progBar.setVisibility(View.VISIBLE);
-                String email = String.valueOf(etEmail.getText());
-                String password = String.valueOf(etPassword.getText());
+                String email = String.valueOf(etEmail.getText()).trim();
+                String password = String.valueOf(etPassword.getText()).trim();
 
 
                 if (TextUtils.isEmpty(email)) {

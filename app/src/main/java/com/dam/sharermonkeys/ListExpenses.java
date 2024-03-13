@@ -11,12 +11,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
-import com.dam.sharermonkeys.adapterutils.FairShareListAdapter;
 import com.dam.sharermonkeys.pojos.Expense;
-import com.dam.sharermonkeys.pojos.FairShare;
-import com.dam.sharermonkeys.pojos.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,9 +30,11 @@ public class ListExpenses extends AppCompatActivity {
     public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
     RecyclerView recyclerView;
     DatabaseReference reference;
-    ArrayList<Expense>list;
+    ArrayList<Expense> list;
 
     ExpenseListAdapter adapter;
+
+    String fairshareId;
 
 
     @Override
@@ -42,57 +42,79 @@ public class ListExpenses extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_expenses);
 
+        // Inicializar UI
+        initializeUI();
 
-        ActionBar actionBar = getSupportActionBar();
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2B2B2B")));
-        actionBar.setLogo(R.drawable.fairshare2_small);
-        actionBar.setDisplayUseLogoEnabled(true); // Habilita el uso del logo en lugar del título
-        actionBar.setDisplayShowHomeEnabled(true); // Muestra el logo en la barra de acción
-        actionBar.setTitle((Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>")));
+        // Obtener el ID de FairShare de la actividad anterior
+        fairshareId = getIntent().getStringExtra("id_fairshare");
 
-        String fairshareId = getIntent().getStringExtra("id_fairshare");
-
-
-        reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference("FairShares")
-                .child(String.valueOf(fairshareId))
-                .child("Expenses");
-
+        // Inicializar el RecyclerView
         recyclerView = findViewById(R.id.rvListExpenses);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Inicializar la lista de gastos
         list = new ArrayList<>();
 
+        // Inicializar el adaptador con la lista vacía
         adapter = new ExpenseListAdapter(list, this);
         recyclerView.setAdapter(adapter);
 
+        // Obtener referencia a la base de datos
+        reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference();
 
-        reference.addValueEventListener(new ValueEventListener() {
+        // Obtener los gastos asociados al FairShare
+        fetchExpenses();
+    }
+
+    private void fetchExpenses() {
+        // Referencia a la ubicación de los gastos en la base de datos
+        DatabaseReference expensesRef = reference.child("Expenses");
+
+        // Consulta para filtrar los gastos por el ID del FairShare
+        expensesRef.orderByChild("id_fairshare").equalTo(fairshareId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Limpiar la lista actual de gastos
                 list.clear();
+                // Iterar sobre los gastos encontrados
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
+                    // Obtener cada gasto y añadirlo a la lista
                     Expense expense = snapshot.getValue(Expense.class);
-                    list.add(expense);
-                    Log.d("LISTEXPENSES", "Expense: " + expense.getName());
 
+                    //Set manually porque firebase no fufa bien
+                    String userIdPayer = snapshot.child("id_user_payer").getValue(String.class);
+                    expense.setIdUserPayer(userIdPayer);
+
+                    list.add(expense);
+                    System.out.println(expense.getIdUserPayer());
+                    Log.d("LISTEXPENSES", "Expense: " + expense.getName());
                 }
+                // Notificar al adaptador que los datos han cambiado
                 adapter.notifyDataSetChanged();
                 Log.d("LISTEXPENSES", "Number of items in list: " + list.size());
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Manejar errores de la base de datos
                 Log.e("LISTEXPENSES", "Firebase Database Error: " + databaseError.getMessage());
-
-
+                Toast.makeText(ListExpenses.this, R.string.db_error, Toast.LENGTH_SHORT).show();
             }
         });
+
+        Log.e("ExpenseListSize", "Size: " + String.valueOf(list.size()));
+        Log.e("FairShare id", fairshareId);
+
     }
 
-
-
-
+    private void initializeUI() {
+        // Configurar la barra de acción
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2B2B2B")));
+        actionBar.setLogo(R.drawable.fairshare2_small);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setTitle(Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>"));
+    }
 }

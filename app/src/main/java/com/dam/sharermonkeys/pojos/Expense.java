@@ -6,56 +6,63 @@ import java.util.ArrayList;
 public class Expense implements Serializable {
 
     private String name;
-    private String idUser; // payer
-    private String idFairshaer;
+    private String idUserPayer; // payer
+    private String idFairshare;
     private String idExpense;
+    private String date;
     private double amount;
     private ArrayList<User> notPayerList; // email ,username
 
-
-    public Expense(String name, String idUser, String idFairshaer, String idExpense, double amount, ArrayList<User> notPayerList) {
+    public Expense(String name, String idUser, String idFairshaer, String idExpense, String date, double amount, ArrayList<User> notPayerList) {
         this.name = name;
-        this.idUser = idUser;
-        this.idFairshaer = idFairshaer;
+        this.idUserPayer = idUser;
+        this.idFairshare = idFairshaer;
         this.idExpense = idExpense;
+        this.date = date;
         this.amount = amount;
         this.notPayerList = notPayerList;
     }
 
-    public Expense() {
-    }
+    public Expense(){}
 
     public String getName() {
         return name;
     }
 
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public String getIdUserPayer() {
+        return idUserPayer;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+    public void setIdUserPayer(String idUserPayer) {
+        this.idUserPayer = idUserPayer;
     }
 
-    public String getIdFairshaer() {
-        return idFairshaer;
+    public String getIdFairshare() {
+        return idFairshare;
     }
 
-    public void setIdFairshaer(String idFairshaer) {
-        this.idFairshaer = idFairshaer;
+    public void setIdFairshare(String idFairshare) {
+        this.idFairshare = idFairshare;
     }
 
-    public String getEdExpense() {
+    public String getIdExpense() {
         return idExpense;
     }
 
-    public void setEdExpense(String edExpense) {
-        this.idExpense = edExpense;
+    public void setIdExpense(String idExpense) {
+        this.idExpense = idExpense;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public double getAmount() {
