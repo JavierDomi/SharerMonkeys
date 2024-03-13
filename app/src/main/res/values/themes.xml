@@ -3,6 +3,7 @@
     <style name="Base.Theme.SharerMonkeys" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/fair_grey</item>
     </style>
 
     <style name="Theme.SharerMonkeys" parent="Base.Theme.SharerMonkeys" />
@@ -15,4 +16,6 @@
     <style name="Theme.SharerMonkeys.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.SharerMonkeys.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <color name="fair_grey">#2B2B2B</color>
 </resources>

@@ -17,19 +17,26 @@
             android:exported="false" />
         <activity
             android:name=".NewFairShare"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.SharerMonkeys.NoActionBar"> <!-- Aplicando el tema sin barra de acción -->
+        </activity>
         <activity
             android:name=".NewExpense"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.SharerMonkeys.NoActionBar"> <!-- Aplicando el tema sin barra de acción -->
+        </activity>
         <activity
             android:name=".autentication.NewAccountActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.SharerMonkeys.NoActionBar"> <!-- Aplicando el tema sin barra de acción -->
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".autentication.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.SharerMonkeys.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
