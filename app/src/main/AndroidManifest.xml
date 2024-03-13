@@ -7,7 +7,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/fair_share2"
-        android:label="@string/app_name"
+        android:label=""
         android:roundIcon="@drawable/fair_share_sin_fondo"
         android:supportsRtl="true"
         android:theme="@style/Theme.SharerMonkeys"
