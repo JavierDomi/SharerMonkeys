@@ -48,7 +48,6 @@ public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdap
         FairShare fairShare = fairShareList.get(position);
 
         holder.tvTittle.setText(fairShare.getName());
-        holder.tvId.setText(fairShare.getIdFairshare());
         holder.tvDescription.setText(fairShare.getDescription());
 
         holder.recCard.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +81,7 @@ public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdap
         CardView recCard;
 
         TextView tvTittle, tvDescription;
-        TextView tvId;
+
 
         public ItemVH(@NonNull View itemView) {
             super(itemView);
@@ -91,7 +90,7 @@ public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdap
 
             tvTittle = itemView.findViewById(R.id.tvTitle);
             tvDescription = itemView.findViewById(R.id.tvDescription);
-            tvId = itemView.findViewById(R.id.tvId);
+
 
         }
     }

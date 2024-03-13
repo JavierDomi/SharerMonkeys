@@ -1,11 +1,15 @@
 package com.dam.sharermonkeys;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 
 import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
@@ -37,6 +41,14 @@ public class ListExpenses extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_expenses);
+
+
+        ActionBar actionBar = getSupportActionBar();
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2B2B2B")));
+        actionBar.setLogo(R.drawable.fairshare2_small);
+        actionBar.setDisplayUseLogoEnabled(true); // Habilita el uso del logo en lugar del título
+        actionBar.setDisplayShowHomeEnabled(true); // Muestra el logo en la barra de acción
+        actionBar.setTitle((Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>")));
 
         String fairshareId = getIntent().getStringExtra("id_fairshare");
 
