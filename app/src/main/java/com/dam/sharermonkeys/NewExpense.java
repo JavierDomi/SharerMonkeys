@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dam.sharermonkeys.R;
+import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
 import com.dam.sharermonkeys.adapterutils.NewExpenseAdapter;
 import com.dam.sharermonkeys.pojos.User;
 import com.google.firebase.database.DataSnapshot;
@@ -58,7 +59,12 @@ public class NewExpense extends AppCompatActivity {
         spinnerUsers = findViewById(R.id.spinnerUsers);
 
         recyclerView = findViewById(R.id.rvCheckBox);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // TODO PASAR LA LISTA AL ADAPTER
+        //adapter = new NewExpenseAdapter(list, this);
+        recyclerView.setAdapter(adapter);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +82,9 @@ public class NewExpense extends AppCompatActivity {
 
     }
 
+
     private void fetchUsers(String fairShairId) {
+
 
         userList = new ArrayList<User>();
 
