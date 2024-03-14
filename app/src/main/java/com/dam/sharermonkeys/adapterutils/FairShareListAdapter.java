@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdapter.ItemVH> {
 
     ArrayList<FairShare> fairShareList;
-    ArrayList<Expense> listExpenses;
     Context context;
 
     public FairShareListAdapter(ArrayList<FairShare> fairShareList, Context context) {

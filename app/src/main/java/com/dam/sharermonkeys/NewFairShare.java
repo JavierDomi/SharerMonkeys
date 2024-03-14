@@ -85,8 +85,6 @@ public class NewFairShare extends AppCompatActivity {
                 String title = etTitle.getText().toString(),
                 desc = etDesc.getText().toString();
 
-                //addParticipantCreator();
-
                 if (!title.equals("") && !desc.equals("") && !participantsList.isEmpty()) {
 
                     Map<String, Object> newFairShare = new HashMap<>();
@@ -115,7 +113,25 @@ public class NewFairShare extends AppCompatActivity {
                                                 fairShareMap.put("id_fairshare", usersRef.getKey()); // El ID del nuevo fairShare
                                                 fairShareMap.put("name", title); // Nombre del fairShare
                                                 fairShareMap.put("description", desc); // Descripción del fairShare
-                                                userRef.push().setValue(fairShareMap);
+                                                userRef.push().setValue(fairShareMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        // Crear el objeto Balance después de crear el FairShare
+                                                        DatabaseReference balanceRef = FirebaseDatabase.getInstance(REALTIME_PATH)
+                                                                .getReference("Balance");
+                                                        Map<String, Object> balanceMap = new HashMap<>();
+                                                        balanceMap.put("id_fairshare", usersRef.getKey());
+                                                        balanceMap.put("id_user", userId);
+                                                        balanceMap.put("expenses", 0); // set default value to 0
+                                                        balanceMap.put("payments", 0);
+                                                        balanceRef.push().setValue(balanceMap);
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(NewFairShare.this, "Error creating FairShare: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
                                             }
                                         }
                                     }
