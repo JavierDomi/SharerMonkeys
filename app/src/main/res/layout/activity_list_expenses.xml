@@ -33,21 +33,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="MY TOTAL:"/>
+                android:text="@string/text_tv_my_total"/>
 
             <TextView
                 android:id="@+id/tvMyTotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="100.00 EUROS"/>
+                android:gravity="left"/>
 
         </LinearLayout>
 
         <Button
+            android:id="@+id/btnNewExpense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Guapa"/>
+            android:text="+"
+            android:textSize="@dimen/tam_text_btn_new_expense"/>
 
         <LinearLayout
             android:id="@+id/llVerticalRight"
@@ -62,14 +63,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="TOTAL EXPENSES:"/>
+                android:text="@string/text_tv_total_expenses"/>
 
             <TextView
                 android:id="@+id/tvTotalExpensesAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="10000.00 EUROS" />
+                android:gravity="right"/>
 
         </LinearLayout>
 

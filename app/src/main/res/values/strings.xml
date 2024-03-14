@@ -68,5 +68,7 @@
     <string name="unable_fetch_username">Unable to fetch username</string>
     <string name="username_not_found">Username not found</string>
     <string name="user_id_null">User id not found</string>
+    <string name="text_tv_my_total">MY TOTAL:</string>
+    <string name="text_tv_total_expenses">TOTAL EXPENSES:</string>
 
 </resources>
