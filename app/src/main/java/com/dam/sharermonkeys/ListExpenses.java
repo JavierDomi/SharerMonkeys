@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class ListExpenses extends AppCompatActivity {
 
     String fairshareId;
 
-    Button btnBalance, btnExpenses;
+    Button btnBalance, btnExpenses, btnNewExpense;
 
 
     @Override
@@ -63,6 +64,7 @@ public class ListExpenses extends AppCompatActivity {
         // Inicializar los botones
         btnExpenses =findViewById(R.id.btnExpenses);
         btnBalance = findViewById(R.id.btnBalance);
+        btnNewExpense = findViewById(R.id.btnNewExpense);
 
         // Inicializar la lista de gastos
         list = new ArrayList<>();
@@ -98,6 +100,14 @@ public class ListExpenses extends AppCompatActivity {
             public void onClick(View v) {
                 recyclerView.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().popBackStackImmediate();
+            }
+        });
+
+        btnNewExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ListExpenses.this, NewExpense.class);
+                startActivity(i);
             }
         });
     }
