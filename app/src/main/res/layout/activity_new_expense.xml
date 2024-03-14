@@ -98,20 +98,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerUsers"/>
 
-    <!-- FALTARIA INCLUIR AQUI LOS CHECKBOX CON CADA USUARIO PARA SABER QUIEN PARTICIPA EN EL GASTO-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCheckBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        app:layout_constraintBottom_toTopOf="@id/btnSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvExpenseFor" />
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/btn_save"

@@ -74,8 +74,13 @@
     <string name="btn_balance">BALANCE</string>
     <string name="btn_expenses">EXPENSES</string>
 
-    <string name="text_tv_my_total">MY TOTAL:</string>
-    <string name="text_tv_total_expenses">TOTAL EXPENSES:</string>
+    <string name="text_tv_my_total">MY TOTAL</string>
+    <string name="text_tv_total_expenses">TOTAL EXPENSES</string>
+    <string name="title_dos_puntos">"Title: "</string>
+    <string name="description_dos_puntos">"Description: "</string>
+    <string name="euro">" €"</string>
+    <string name="date_example">01/01/2024</string>
+    <string name="payed_by_dospuntos">"Payed by: "</string>
 
 
 </resources>

@@ -1,6 +1,8 @@
 package com.dam.sharermonkeys;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -14,12 +16,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dam.sharermonkeys.R;
+import com.dam.sharermonkeys.adapterutils.NewExpenseAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class NewExpense extends AppCompatActivity {
+    RecyclerView recyclerView;
+    NewExpenseAdapter adapter;
     EditText etDate;
     Button btnSave;
     Spinner spinnerUsers;
@@ -32,6 +37,9 @@ public class NewExpense extends AppCompatActivity {
         etDate = findViewById(R.id.etDate);
         btnSave = findViewById(R.id.btnSave);
         spinnerUsers = findViewById(R.id.spinnerUsers);
+
+        recyclerView = findViewById(R.id.rvCheckBox);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
