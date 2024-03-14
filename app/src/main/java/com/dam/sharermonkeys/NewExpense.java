@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dam.sharermonkeys.R;
+import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
 import com.dam.sharermonkeys.adapterutils.NewExpenseAdapter;
 
 import java.util.ArrayList;
@@ -39,7 +40,12 @@ public class NewExpense extends AppCompatActivity {
         spinnerUsers = findViewById(R.id.spinnerUsers);
 
         recyclerView = findViewById(R.id.rvCheckBox);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // TODO PASAR LA LISTA AL ADAPTER
+        //adapter = new NewExpenseAdapter(list, this);
+        recyclerView.setAdapter(adapter);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +67,7 @@ public class NewExpense extends AppCompatActivity {
         userList.add("User 2");
         userList.add("User 3");
         userList.add("User 4");
+
 
         // Configurar el adaptador del Spinner con la lista de usuarios de prueba
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, userList);
