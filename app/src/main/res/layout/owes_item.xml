@@ -1,0 +1,64 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recCardOwes"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <!-- Contenido del primer LinearLayout -->
+            <TextView
+                android:id="@+id/tvUser1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User1"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="owes to"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tvUser2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User2"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Contenido del segundo LinearLayout -->
+            <TextView
+                android:id="@+id/tvEuro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="0,00€"/>
+
+            <Button
+                android:id="@+id/btnPay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pay"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
