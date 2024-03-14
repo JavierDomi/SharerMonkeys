@@ -11,7 +11,6 @@ import com.dam.sharermonkeys.pojos.User;
 import java.util.ArrayList;
 
 public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.ItemVH> {
-
     private ArrayList<User> participantsList;
 
     public NewExpenseAdapter(ArrayList<User> participantsList) {
@@ -21,14 +20,14 @@ public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.It
     @NonNull
     @Override
     public ItemVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_list_expenses, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_expense_item, parent, false);
         return new ItemVH(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemVH holder, int position) {
         User user = participantsList.get(position);
-        holder.cbUser.setText(user.getUsername());
+        holder.cbUser.setText(String.valueOf(user.getUsername()));
     }
 
     @Override
