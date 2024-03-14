@@ -21,11 +21,8 @@ import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.FairShareListAdapter;
 import com.dam.sharermonkeys.autentication.LoginActivity;
-import com.dam.sharermonkeys.pojos.FairShare;
 import com.dam.sharermonkeys.pojos.User;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 

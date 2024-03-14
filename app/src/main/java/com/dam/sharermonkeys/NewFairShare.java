@@ -137,6 +137,25 @@
                                                             balanceMap.put("expenses", 0); // set default value to 0
                                                             balanceMap.put("payments", 0);
                                                             balanceRef.push().setValue(balanceMap);
+
+                                                            balanceRef.addValueEventListener(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                                    refreshAndLaunchMainActivity();
+
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                    Toast.makeText(NewFairShare.this, R.string.unable_to_upload_balance, Toast.LENGTH_SHORT).show();
+
+                                                                }
+                                                            });
+
+
+
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {
                                                         @Override
@@ -154,9 +173,6 @@
                                         }
                                     });
                                 }
-
-                                refreshAndLaunchMainActivity();
-
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -286,7 +302,7 @@
                             User user = new User(username, email, fairSharesList);
 
                             // Pasar el objeto User a la actividad principal
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(NewFairShare.this, MainActivity.class);
                             intent.putExtra("user", user);
                             startActivity(intent);
                             finish();
