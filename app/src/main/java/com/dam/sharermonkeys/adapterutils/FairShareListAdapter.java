@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdapter.ItemVH> {
 
     ArrayList<FairShare> fairShareList;
-    ArrayList<Expense> listExpenses;
     Context context;
 
     public FairShareListAdapter(ArrayList<FairShare> fairShareList, Context context) {
@@ -75,6 +74,11 @@ public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdap
 
     @Override
     public int getItemCount() {return fairShareList.size(); }
+
+    public void updateFairSharesList(ArrayList<FairShare> fairShareList) {
+        this.fairShareList = fairShareList;
+        notifyDataSetChanged();
+    }
 
     public static class ItemVH extends RecyclerView.ViewHolder {
 

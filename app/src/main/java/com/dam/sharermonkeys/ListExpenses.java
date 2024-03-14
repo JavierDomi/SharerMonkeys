@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -42,9 +43,8 @@ public class ListExpenses extends AppCompatActivity {
 
     String fairshareId;
 
-    Button btnBalance, btnExpenses;
+    Button btnBalance, btnExpenses, btnNewExpense;;
     ImageView imgExpenses, imgBalance;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class ListExpenses extends AppCompatActivity {
         imgExpenses = findViewById(R.id.imgExpenses);
         imgBalance = findViewById(R.id.imgBalance);
         imgBalance.setVisibility(View.GONE);
-        imgExpenses.setVisibility(View.GONE);
+        imgExpenses.setVisibility(View.VISIBLE);
 
         // Obtener el ID de FairShare de la actividad anterior
         fairshareId = getIntent().getStringExtra("id_fairshare");
@@ -70,6 +70,7 @@ public class ListExpenses extends AppCompatActivity {
         // Inicializar los botones
         btnExpenses =findViewById(R.id.btnExpenses);
         btnBalance = findViewById(R.id.btnBalance);
+        btnNewExpense = findViewById(R.id.btnNewExpense);
 
 
         // Inicializar la lista de gastos
@@ -114,6 +115,14 @@ public class ListExpenses extends AppCompatActivity {
 
 
 
+            }
+        });
+
+        btnNewExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ListExpenses.this, NewExpense.class);
+                startActivity(i);
             }
         });
     }

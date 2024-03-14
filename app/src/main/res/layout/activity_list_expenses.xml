@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/margin"
+    android:background="@color/share"
     tools:context=".ListExpenses">
 
     <LinearLayout
@@ -12,7 +14,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         tools:ignore="MissingConstraints">
-
 
         <Button
             android:id="@+id/btnExpenses"
@@ -23,9 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="17sp"
-            />
-
+            android:textSize="17sp" />
 
 
         <Button
@@ -37,14 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="17sp"
-
-            />
-
+            android:textSize="17sp" />
 
     </LinearLayout>
-
-
 
 
 
@@ -57,6 +51,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llImagen" />
+
 
     <LinearLayout
         android:id="@+id/llHorzontalParent"
@@ -80,20 +75,38 @@
                 android:gravity="left"
                 android:text="@string/text_tv_my_total"/>
 
-            <TextView
-                android:id="@+id/tvMyTotalAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvMyTotalAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textStyle="bold"
+                        android:gravity="left"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/euro"/>
+
+                </LinearLayout>
 
         </LinearLayout>
 
         <Button
             android:id="@+id/btnNewExpense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+"
-            android:textSize="@dimen/tam_text_btn_new_expense"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:textSize="25dp"
+            android:background="@drawable/rounded_button_background"
+            android:text="@string/btn_add_new"/>
 
         <LinearLayout
             android:id="@+id/llVerticalRight"
@@ -110,11 +123,26 @@
                 android:gravity="right"
                 android:text="@string/text_tv_total_expenses"/>
 
-            <TextView
-                android:id="@+id/tvTotalExpensesAmount"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTotalExpensesAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="0.00"
+                    android:gravity="right"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/euro"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
