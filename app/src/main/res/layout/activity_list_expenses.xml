@@ -7,10 +7,56 @@
     android:layout_margin="@dimen/margin"
     tools:context=".ListExpenses">
 
+    <LinearLayout
+        android:id="@+id/llBotones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+
+
+        <Button
+            android:id="@+id/btnExpenses"
+            android:layout_weight="2"
+            android:textColor="@color/fair_grey"
+            android:backgroundTint="#00FFFFFF"
+            android:text="@string/btn_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            />
+
+
+        <Button
+            android:id="@+id/btnBalance"
+            android:layout_weight="2"
+            android:backgroundTint="#00FFFFFF"
+            android:text="@string/btn_balance"
+            android:textColor="@color/fair_grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="17sp"
+
+            />
+
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/llBotones" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvListExpenses"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/llBotones"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,8 @@ package com.dam.sharermonkeys;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,9 +13,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
+import com.dam.sharermonkeys.fragments.BalanceFragment;
 import com.dam.sharermonkeys.pojos.Expense;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +41,8 @@ public class ListExpenses extends AppCompatActivity {
 
     String fairshareId;
 
+    Button btnBalance, btnExpenses;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,10 @@ public class ListExpenses extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Inicializar los botones
+        btnExpenses =findViewById(R.id.btnExpenses);
+        btnBalance = findViewById(R.id.btnBalance);
+
         // Inicializar la lista de gastos
         list = new ArrayList<>();
 
@@ -65,6 +76,30 @@ public class ListExpenses extends AppCompatActivity {
 
         // Obtener los gastos asociados al FairShare
         fetchExpenses();
+
+
+        btnBalance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                BalanceFragment bf = new BalanceFragment();
+                ft.replace(R.id.fragmentContainer, bf);
+                ft.addToBackStack(null);
+                recyclerView.setVisibility(View.GONE);
+
+
+                ft.commit();
+
+            }
+        });
+        btnExpenses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.VISIBLE);
+                getSupportFragmentManager().popBackStackImmediate();
+            }
+        });
     }
 
     private void fetchExpenses() {
