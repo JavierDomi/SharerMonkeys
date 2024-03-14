@@ -15,6 +15,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
@@ -42,6 +43,7 @@ public class ListExpenses extends AppCompatActivity {
     String fairshareId;
 
     Button btnBalance, btnExpenses;
+    ImageView imgExpenses, imgBalance;
 
 
     @Override
@@ -51,6 +53,11 @@ public class ListExpenses extends AppCompatActivity {
 
         // Inicializar UI
         initializeUI();
+
+        imgExpenses = findViewById(R.id.imgExpenses);
+        imgBalance = findViewById(R.id.imgBalance);
+        imgBalance.setVisibility(View.GONE);
+        imgExpenses.setVisibility(View.GONE);
 
         // Obtener el ID de FairShare de la actividad anterior
         fairshareId = getIntent().getStringExtra("id_fairshare");
@@ -63,6 +70,7 @@ public class ListExpenses extends AppCompatActivity {
         // Inicializar los botones
         btnExpenses =findViewById(R.id.btnExpenses);
         btnBalance = findViewById(R.id.btnBalance);
+
 
         // Inicializar la lista de gastos
         list = new ArrayList<>();
@@ -77,27 +85,35 @@ public class ListExpenses extends AppCompatActivity {
         // Obtener los gastos asociados al FairShare
         fetchExpenses();
 
-
         btnBalance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imgBalance.setVisibility(View.VISIBLE);
+                imgExpenses.setVisibility(View.GONE);
+
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 BalanceFragment bf = new BalanceFragment();
                 ft.replace(R.id.fragmentContainer, bf);
                 ft.addToBackStack(null);
                 recyclerView.setVisibility(View.GONE);
-
-
                 ft.commit();
+
+
 
             }
         });
         btnExpenses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imgExpenses.setVisibility(View.VISIBLE);
+                imgBalance.setVisibility(View.GONE);
+
                 recyclerView.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().popBackStackImmediate();
+
+
+
             }
         });
     }
