@@ -21,7 +21,11 @@ import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.FairShareListAdapter;
 import com.dam.sharermonkeys.autentication.LoginActivity;
+import com.dam.sharermonkeys.pojos.FairShare;
 import com.dam.sharermonkeys.pojos.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,13 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActionBar actionBar = getSupportActionBar();
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2B2B2B")));
-        actionBar.setLogo(R.drawable.fairshare2_small);
-        actionBar.setDisplayUseLogoEnabled(true); // Habilita el uso del logo en lugar del título
-        actionBar.setDisplayShowHomeEnabled(true); // Muestra el logo en la barra de acción
-        actionBar.setTitle((Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>")));
-
+        inicializeUI();
 
         btnAddNew = findViewById(R.id.btnAddNew);
         recyclerView = findViewById(R.id.rvList);
@@ -68,6 +66,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void inicializeUI() {
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2B2B2B")));
+        actionBar.setLogo(R.drawable.fairshare2_small);
+        actionBar.setDisplayUseLogoEnabled(true); // Habilita el uso del logo en lugar del título
+        actionBar.setDisplayShowHomeEnabled(true); // Muestra el logo en la barra de acción
+        actionBar.setTitle((Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>")));
+
     }
 
     @Override
@@ -128,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Actualizar la lista de FairShares si es necesario
         if (user != null && adapter != null) {
             adapter.notifyDataSetChanged();
         }
     }
+
 }

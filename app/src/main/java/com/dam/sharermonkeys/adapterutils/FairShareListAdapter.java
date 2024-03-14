@@ -75,6 +75,11 @@ public class FairShareListAdapter extends RecyclerView.Adapter<FairShareListAdap
     @Override
     public int getItemCount() {return fairShareList.size(); }
 
+    public void updateFairSharesList(ArrayList<FairShare> fairShareList) {
+        this.fairShareList = fairShareList;
+        notifyDataSetChanged();
+    }
+
     public static class ItemVH extends RecyclerView.ViewHolder {
 
         CardView recCard;
