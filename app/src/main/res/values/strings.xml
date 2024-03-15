@@ -86,6 +86,7 @@
     <string name="minimun_amount">The amout must be equal or greater than the number of participants</string>
     <string name="unable_find_balance">Unable to find balance</string>
     <string name="unable_fetch_balance">Unable to fetch balance</string>
+    <string name="expese_created">Expense created</string>
 
 
 </resources>

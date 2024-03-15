@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -94,6 +95,12 @@ public class NewExpense extends AppCompatActivity {
                             updateParticipantsBalance(toPay, participants);
 
                             clearFields();
+
+                            Toast.makeText(NewExpense.this, R.string.expese_created, Toast.LENGTH_SHORT).show();
+
+                            Intent i = new Intent(NewExpense.this, ListExpenses.class);
+                            i.putExtra("id_fairshare", fairShareId);
+                            startActivity(i);
 
                         } else {
                             Toast.makeText(NewExpense.this, R.string.minimun_amount, Toast.LENGTH_SHORT).show();

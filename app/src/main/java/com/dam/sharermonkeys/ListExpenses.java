@@ -145,8 +145,10 @@ public class ListExpenses extends AppCompatActivity {
                     Expense expense = snapshot.getValue(Expense.class);
 
                     //Set manually porque firebase no fufa bien
-                    String userIdPayer = snapshot.child("id_user_payer").getValue(String.class);
+                    String userIdPayer = snapshot.child("idUserPayer").getValue(String.class);
                     expense.setIdUserPayer(userIdPayer);
+                    System.out.println("ID PAYER: " + userIdPayer);
+                    System.out.println("ID PAYER EXPENSE: " + expense.getIdUserPayer());
 
                     if (expense.getIdFairshare().equals(fairshareId)) {
                         // Agregar el gasto a la lista solo si coincide con el ID del FairShare actual
