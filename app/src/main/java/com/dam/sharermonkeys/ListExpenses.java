@@ -41,7 +41,8 @@ import java.util.ArrayList;
 public class ListExpenses extends AppCompatActivity {
 
     public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
-    RecyclerView recyclerView;
+    RecyclerView recyclerViewExpenses;
+    RecyclerView recyclerViewBalance;
     DatabaseReference reference;
     ArrayList<Expense> list;
     ArrayList<Balance> balances;
@@ -75,10 +76,16 @@ public class ListExpenses extends AppCompatActivity {
         // Obtener el ID de FairShare de la actividad anterior
         fairshareId = getIntent().getStringExtra("id_fairshare");
 
-        // Inicializar el RecyclerView
-        recyclerView = findViewById(R.id.rvListExpenses);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Inicializar el RecyclerView de expenses
+        recyclerViewExpenses = findViewById(R.id.rvListExpenses);
+        recyclerViewExpenses.setHasFixedSize(true);
+        recyclerViewExpenses.setLayoutManager(new LinearLayoutManager(this));
+
+        // Inicializar el RecyclerView de balance
+        //TODO POR QUE NO MUESTRA EL BALANCE_ITEM DENTRO DEL FRAGMENT_BALANCE
+        //recyclerViewBalance = findViewById(R.id.rvGrafic);
+        recyclerViewBalance.setHasFixedSize(true);
+        recyclerViewBalance.setLayoutManager(new LinearLayoutManager(this));
 
         // Inicializar los botones
         btnExpenses =findViewById(R.id.btnExpenses);
@@ -91,11 +98,12 @@ public class ListExpenses extends AppCompatActivity {
 
         // Inicializar el adaptador con la lista vacía
         adapter = new ExpenseListAdapter(list, this);
-        recyclerView.setAdapter(adapter);
+        recyclerViewExpenses.setAdapter(adapter);
 
         balances = new ArrayList<>();
         balanceAdapter = new BalanceAdapter(balances, this);
-        recyclerView.setAdapter(balanceAdapter);
+
+        recyclerViewBalance.setAdapter(balanceAdapter);
 
         // Obtener referencia a la base de datos
         reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference();
@@ -115,7 +123,7 @@ public class ListExpenses extends AppCompatActivity {
                 BalanceFragment bf = new BalanceFragment();
                 ft.replace(R.id.fragmentContainer, bf);
                 ft.addToBackStack(null);
-                recyclerView.setVisibility(View.GONE);
+                recyclerViewExpenses.setVisibility(View.GONE);
                 ft.commit();
 
                 getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -129,7 +137,7 @@ public class ListExpenses extends AppCompatActivity {
                 imgExpenses.setVisibility(View.VISIBLE);
                 imgBalance.setVisibility(View.GONE);
 
-                recyclerView.setVisibility(View.VISIBLE);
+                recyclerViewExpenses.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().popBackStackImmediate();
 
             }
