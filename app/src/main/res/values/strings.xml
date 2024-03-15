@@ -62,7 +62,7 @@
     <string name="user_nametv">"Username: "</string>
     <string name="emailtv">"Email: "</string>
 
-    <string name="complete_all_fields_new_fairShare">You must fill in all fields</string>
+    <string name="complete_all_fields">You must fill in all fields</string>
     <string name="unable_fetch_fairShare">Unable to fetch fairShare</string>
     <string name="db_error">Database Error :(</string>
     <string name="unable_fetch_username">Unable to fetch username</string>
@@ -83,6 +83,9 @@
     <string name="payed_by_dospuntos">"Payed by: "</string>
     <string name="unable_to_upload_balance">Unable to upload new Balance item</string>
     <string name="must_select_user_spinner">You must select a user</string>
+    <string name="minimun_amount">The amout must be equal or greater than the number of participants</string>
+    <string name="unable_find_balance">Unable to find balance</string>
+    <string name="unable_fetch_balance">Unable to fetch balance</string>
 
 
 </resources>

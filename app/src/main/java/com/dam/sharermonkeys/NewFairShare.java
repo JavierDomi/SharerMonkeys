@@ -180,7 +180,7 @@
                             }
                         });
                     } else {
-                        Toast.makeText(NewFairShare.this, R.string.complete_all_fields_new_fairShare, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewFairShare.this, R.string.complete_all_fields, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
