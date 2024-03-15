@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="share">#E5E5DC</color>
+    <color name="fair_grey">#2B2B2B</color>
     <color name="red">#F1A492</color>
-    <color name="verde">#9ED5A4</color>
+    <color name="green">#9ED5A4</color>
 </resources>

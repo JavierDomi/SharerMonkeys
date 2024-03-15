@@ -14,9 +14,4 @@
         android:orderInCategory="300"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/mnDelete"
-        android:icon="@drawable/trash"
-        android:title="@string/mn_delete"
-        app:showAsAction="always"/>
-
 </menu>

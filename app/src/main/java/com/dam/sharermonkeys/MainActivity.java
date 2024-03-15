@@ -124,9 +124,6 @@ public class MainActivity extends AppCompatActivity {
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-        } else if (item.getItemId() == R.id.mnDelete) {
-            Toast.makeText(this, R.string.hold_to_delete, Toast.LENGTH_LONG).show();
-            //TODO: Implementar acción para borrar un grupo de gastos (Al dejar pulsado?)
         }
         return super.onOptionsItemSelected(item);
     }
