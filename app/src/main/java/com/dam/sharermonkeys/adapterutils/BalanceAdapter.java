@@ -106,8 +106,8 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
             super(itemView);
 
             recCardBalance = itemView.findViewById(R.id.recCardBalance);
-            tvUser = itemView.findViewById(R.id.tvUser);
-            tvCantidad = itemView.findViewById(R.id.tvCantidad);
+            tvUser = itemView.findViewById(R.id.tvUserBalance);
+            tvCantidad = itemView.findViewById(R.id.tvCantidadBalance);
 
         }
     }
