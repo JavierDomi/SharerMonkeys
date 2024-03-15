@@ -39,7 +39,6 @@ public class NewExpense extends AppCompatActivity {
     Spinner spinnerUsers;
     String fairShairId;
     ArrayList<User> userList;
-    List<String> dropList;
     DatabaseReference databaseReference;
 
     @Override
@@ -63,7 +62,7 @@ public class NewExpense extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // TODO PASAR LA LISTA AL ADAPTER
-        //adapter = new NewExpenseAdapter(list, this);
+        adapter = new NewExpenseAdapter(userList, this);
         recyclerView.setAdapter(adapter);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -167,12 +166,11 @@ public class NewExpense extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedUser = parent.getItemAtPosition(position).toString();
-                Toast.makeText(NewExpense.this, "Usuario seleccionado: " + selectedUser, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // No hacer nada cuando no se selecciona nada
+                Toast.makeText(NewExpense.this, R.string.must_select_user_spinner, Toast.LENGTH_SHORT).show();
             }
         });
 

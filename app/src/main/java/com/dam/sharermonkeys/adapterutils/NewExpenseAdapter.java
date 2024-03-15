@@ -1,20 +1,30 @@
 package com.dam.sharermonkeys.adapterutils;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.dam.sharermonkeys.MainActivity;
 import com.dam.sharermonkeys.R;
 import com.dam.sharermonkeys.pojos.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.ItemVH> {
     private ArrayList<User> participantsList;
+    Context context;
+    DatabaseReference databaseReference;
 
-    public NewExpenseAdapter(ArrayList<User> participantsList) {
+    public NewExpenseAdapter(ArrayList<User> participantsList, Context context) {
         this.participantsList = participantsList;
+        this.context = context;
+        databaseReference = FirebaseDatabase.getInstance(MainActivity.REALTIME_PATH).getReference();
     }
 
     @NonNull
@@ -27,7 +37,7 @@ public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.It
     @Override
     public void onBindViewHolder(@NonNull ItemVH holder, int position) {
         User user = participantsList.get(position);
-        holder.cbUser.setText(String.valueOf(user.getUsername()));
+        holder.cbUser.setText(user.getUsername());
     }
 
     @Override
