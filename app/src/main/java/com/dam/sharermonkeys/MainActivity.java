@@ -21,10 +21,11 @@ import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.FairShareListAdapter;
 import com.dam.sharermonkeys.autentication.LoginActivity;
+import com.dam.sharermonkeys.fragments.BalanceFragment;
 import com.dam.sharermonkeys.pojos.User;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
 
@@ -92,8 +93,13 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(i);
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
+                    /* Se establecen los flags en el intent para limpiar la pila de actividades
+                    y crear una nueva tarea para la actividad de inicio de sesion.*/
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish(); // Se finaliza la actividad actual
                 }
             });
             builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
@@ -138,5 +144,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
 
 }

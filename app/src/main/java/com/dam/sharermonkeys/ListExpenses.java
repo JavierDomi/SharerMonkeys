@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -100,6 +101,9 @@ public class ListExpenses extends AppCompatActivity {
                 recyclerView.setVisibility(View.GONE);
                 ft.commit();
 
+                getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+
             }
         });
         btnExpenses.setOnClickListener(new View.OnClickListener() {
@@ -170,9 +174,20 @@ public class ListExpenses extends AppCompatActivity {
         // Configurar la barra de acción
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2B2B2B")));
-        actionBar.setLogo(R.drawable.fairshare2_small);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white); // Establecer el icono de la flecha blanca
+        actionBar.setDisplayHomeAsUpEnabled(true); // Agregar el boton de flecha para ir atras
         actionBar.setTitle(Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>"));
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed(); // Volver a la actividad anterior
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
