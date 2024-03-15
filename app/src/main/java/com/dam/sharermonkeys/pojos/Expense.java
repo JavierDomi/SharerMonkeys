@@ -23,6 +23,17 @@ public class Expense implements Serializable {
         this.notPayerList = notPayerList;
     }
 
+    //Constructor sin ID de expense
+
+    public Expense(String name, String idUser, String idFairshaer, String date, double amount, ArrayList<User> notPayerList) {
+        this.name = name;
+        this.idUserPayer = idUser;
+        this.idFairshare = idFairshaer;
+        this.date = date;
+        this.amount = amount;
+        this.notPayerList = notPayerList;
+    }
+
     public Expense(){}
 
     public String getName() {

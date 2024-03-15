@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +40,17 @@ public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.It
     public void onBindViewHolder(@NonNull ItemVH holder, int position) {
         User user = participantsList.get(position);
         holder.cbUser.setText(user.getUsername());
+        holder.cbUser.setChecked(user.isSelected());
+
+        holder.cbUser.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                user.setSelected(isChecked);
+
+            }
+        });
+
     }
 
     @Override
@@ -53,4 +66,15 @@ public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.It
             cbUser = itemView.findViewById(R.id.cbUser);
         }
     }
+
+    public ArrayList<User> getSelectedUsers() {
+        ArrayList<User> selectedUsers = new ArrayList<>();
+        for (User user : participantsList) {
+            if (user.isSelected()) {
+                selectedUsers.add(user);
+            }
+        }
+        return selectedUsers;
+    }
+
 }

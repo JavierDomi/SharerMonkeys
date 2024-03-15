@@ -9,6 +9,7 @@ public class User implements Serializable {
     private String id;
     private String email;
     private ArrayList<FairShare> fairSharesList;
+    private boolean selected;
 
     // Constructor sin ID
     public User(String username, String email, ArrayList<FairShare> fairSharesList) {
@@ -57,5 +58,14 @@ public class User implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    // Métodos para el estado de selección
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
