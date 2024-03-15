@@ -17,9 +17,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.dam.sharermonkeys.R;
-import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
 import com.dam.sharermonkeys.adapterutils.NewExpenseAdapter;
+import com.dam.sharermonkeys.pojos.Expense;
 import com.dam.sharermonkeys.pojos.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,10 +33,11 @@ import java.util.List;
 public class NewExpense extends AppCompatActivity {
     RecyclerView recyclerView;
     NewExpenseAdapter adapterNewExpense;
-    EditText etDate;
+    EditText etTitle, etAmount, etDate;
     Button btnSave;
     Spinner spinnerUsers;
-    String fairShairId;
+    String fairShareId;
+    User selectedPayer;
     ArrayList<User> userList;
     DatabaseReference databaseReference;
 
@@ -48,12 +48,15 @@ public class NewExpense extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance(MainActivity.REALTIME_PATH).getReference();
 
-        fairShairId = getIntent().getStringExtra("fairshareId");
-        System.out.println(fairShairId);
+        fairShareId = getIntent().getStringExtra("fairshareId");
+        System.out.println(fairShareId);
 
-        fetchUsers(fairShairId);
+        fetchUsers(fairShareId);
 
+        etTitle = findViewById(R.id.etTitle);
+        etAmount = findViewById(R.id.etAmount);
         etDate = findViewById(R.id.etDate);
+
         btnSave = findViewById(R.id.btnSave);
         spinnerUsers = findViewById(R.id.spinnerUsers);
 
@@ -66,7 +69,37 @@ public class NewExpense extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(NewExpense.this, "Guardando PRUEBA", Toast.LENGTH_SHORT).show();
+
+                String title = etTitle.getText().toString();
+                String date = etDate.getText().toString();
+                String sAmount = etAmount.getText().toString();
+                // payer = selectedPayer
+                ArrayList<User> participants = adapterNewExpense.getSelectedUsers();
+
+                if (!title.equals("") && !date.equals("") && !sAmount.equals("")) {
+
+                    double amount = Double.parseDouble(sAmount);
+
+                    double toPay = amount / (participants.size());
+
+                        if (amount >= participants.size()) {
+
+                            Expense expense = new Expense(title, selectedPayer.getId(), fairShareId, date, amount, participants);
+                            //PUSH NEW EXPENSE TO FIREBASE
+                            databaseReference.child("Expenses").push().setValue(expense);
+
+                            //UPDATE BALANCES
+                            updatePayerBalance(amount);
+                            updateParticipantsBalance(toPay, participants);
+
+                            clearFields();
+
+                        } else {
+                            Toast.makeText(NewExpense.this, R.string.minimun_amount, Toast.LENGTH_SHORT).show();
+                        }
+                } else {
+                    Toast.makeText(NewExpense.this, R.string.complete_all_fields, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -76,6 +109,14 @@ public class NewExpense extends AppCompatActivity {
                 mostrarDialogoSelectorFecha();
             }
         });
+
+    }
+
+    private void clearFields() {
+
+        etTitle.setText("");
+        etDate.setText("");
+        etAmount.setText("");
 
     }
 
@@ -102,7 +143,8 @@ public class NewExpense extends AppCompatActivity {
                             // Verifica si el fairshareId coincide con el que estás buscando
                             if (fairshareId.equals(fairshareId)) {
                                 // Si coincide, agrega el usuario a la lista y sal del bucle
-                                User user = new User(username, email, userId, null);
+                                User user = new User(username, userId, email, null);
+                                user.setSelected(true);
                                 userList.add(user);
                                 break;
                             }
@@ -165,12 +207,83 @@ public class NewExpense extends AppCompatActivity {
         spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedUser = parent.getItemAtPosition(position).toString();
+                String selectedUsername = parent.getItemAtPosition(position).toString();
+                selectedPayer = null;
+
+                for (User user : userList) {
+                    if (user.getUsername().equals(selectedUsername)) {
+                        selectedPayer = user;
+                        break;
+                    }
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 Toast.makeText(NewExpense.this, R.string.must_select_user_spinner, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void updateParticipantsBalance(Double toPay, ArrayList<User> participants) {
+
+        for(User participant : participants) {
+            databaseReference.child("Balance").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot balanceSnapshot : dataSnapshot.getChildren()) {
+                        String userId = balanceSnapshot.child("id_user").getValue(String.class);
+                        String fairshareId = balanceSnapshot.child("id_fairshare").getValue(String.class);
+                        if(userId != null && fairshareId != null && userId.equals(participant.getId()) && fairshareId.equals(fairShareId)) {
+                            // Encontrado el balance correcto, actualizar el campo "expenses"
+                            double currentExpenses = balanceSnapshot.child("expenses").getValue(Double.class);
+                            currentExpenses += toPay;
+                            // Actualizar el campo "expenses" del usuario en la base de datos
+                            databaseReference.child("Balance").child(balanceSnapshot.getKey()).child("expenses").setValue(currentExpenses);
+                            // Salir del bucle ya que hemos encontrado el balance correcto
+                            break;
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Manejar cualquier error que ocurra al acceder a los datos
+                    Log.e("NewExpense", "Error al acceder al saldo del usuario: " + databaseError.getMessage());
+                }
+            });
+        }
+
+
+    }
+
+    public void updatePayerBalance (Double amount) {
+
+        databaseReference.child("Balance").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot balanceSnapshot : dataSnapshot.getChildren()) {
+                    String userId = balanceSnapshot.child("id_user").getValue(String.class);
+                    String fairshareId = balanceSnapshot.child("id_fairshare").getValue(String.class);
+                    if(userId != null && fairshareId != null && userId.equals(selectedPayer.getId()) && fairshareId.equals(fairShareId)) {
+                        // Encontrado el balance correcto, actualizar el saldo
+                        double currentBalance = balanceSnapshot.child("payments").getValue(Double.class);
+                        currentBalance += amount;
+                        // Actualizar el saldo del usuario en la base de datos
+                        databaseReference.child("Balance").child(balanceSnapshot.getKey()).child("payments").setValue(currentBalance);
+                        // Salir del bucle ya que hemos encontrado el balance correcto
+                        return;
+                    }
+                }
+                // Si llega aquí, significa que no se encontró el balance adecuado
+                Toast.makeText(NewExpense.this, R.string.unable_find_balance, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Manejar cualquier error que ocurra al acceder a los datos
+                Toast.makeText(NewExpense.this, R.string.unable_fetch_balance, Toast.LENGTH_SHORT).show();
             }
         });
 
