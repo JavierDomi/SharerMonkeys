@@ -133,7 +133,7 @@ public class ListExpenses extends AppCompatActivity {
         DatabaseReference expensesRef = reference.child("Expenses");
 
         // Consulta para filtrar los gastos por el ID del FairShare
-        expensesRef.orderByChild("id_fairshare").equalTo(fairshareId).
+        expensesRef.orderByChild("idFairshare").equalTo(fairshareId).
                 addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -145,12 +145,17 @@ public class ListExpenses extends AppCompatActivity {
                     Expense expense = snapshot.getValue(Expense.class);
 
                     //Set manually porque firebase no fufa bien
-                    String userIdPayer = snapshot.child("id_user_payer").getValue(String.class);
+                    String userIdPayer = snapshot.child("idUserPayer").getValue(String.class);
                     expense.setIdUserPayer(userIdPayer);
+                    System.out.println("ID PAYER: " + userIdPayer);
+                    System.out.println("ID PAYER EXPENSE: " + expense.getIdUserPayer());
 
-                    list.add(expense);
-                    System.out.println(expense.getIdUserPayer());
-                    Log.d("LISTEXPENSES", "Expense: " + expense.getName());
+                    if (expense.getIdFairshare().equals(fairshareId)) {
+                        // Agregar el gasto a la lista solo si coincide con el ID del FairShare actual
+                        list.add(expense);
+                        System.out.println(expense.getIdUserPayer());
+                        Log.d("LISTEXPENSES", "Expense: " + expense.getName());
+                    }
                 }
                 // Notificar al adaptador que los datos han cambiado
                 adapter.notifyDataSetChanged();
