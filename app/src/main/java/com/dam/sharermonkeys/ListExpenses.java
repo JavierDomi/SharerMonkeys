@@ -61,8 +61,6 @@ public class ListExpenses extends AppCompatActivity {
         // Inicializar UI
         initializeUI();
 
-        balances = new ArrayList<>();
-
         userExpenses = 0.00;
         totalFairShareExpenses = 0.00;
 
@@ -97,7 +95,7 @@ public class ListExpenses extends AppCompatActivity {
 
         balances = new ArrayList<>();
         balanceAdapter = new BalanceAdapter(balances, this);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(balanceAdapter);
 
         // Obtener referencia a la base de datos
         reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference();
@@ -202,6 +200,8 @@ public class ListExpenses extends AppCompatActivity {
 
                                         balances.add(balance);
 
+                                        balanceAdapter.notifyDataSetChanged();
+
                                         // Verificar si el balance pertenece al usuario
                                         String idUser = snapshot.child("id_user").getValue(String.class);
                                         if (idUser != null && idUser.equals(userId[0])) {
@@ -275,7 +275,6 @@ public class ListExpenses extends AppCompatActivity {
                 }
                 // Notificar al adaptador que los datos han cambiado
                 adapter.notifyDataSetChanged();
-                balanceAdapter.notifyDataSetChanged();
                 Log.d("LISTEXPENSES", "Number of items in list: " + list.size());
             }
 
