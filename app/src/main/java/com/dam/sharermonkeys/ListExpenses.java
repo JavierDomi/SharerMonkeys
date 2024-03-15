@@ -18,11 +18,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
 import com.dam.sharermonkeys.fragments.BalanceFragment;
 import com.dam.sharermonkeys.pojos.Expense;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,13 +42,12 @@ public class ListExpenses extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference reference;
     ArrayList<Expense> list;
-
     ExpenseListAdapter adapter;
-
     String fairshareId;
-
     Button btnBalance, btnExpenses, btnNewExpense;;
     ImageView imgExpenses, imgBalance;
+    TextView tvMyToal, tvTotalExpenses;
+    Double totalFairShareExpenses, userExpenses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,12 @@ public class ListExpenses extends AppCompatActivity {
 
         // Inicializar UI
         initializeUI();
+
+        userExpenses = 0.00;
+        totalFairShareExpenses = 0.00;
+
+        tvMyToal = findViewById(R.id.tvMyTotalAmount);
+        tvTotalExpenses = findViewById(R.id.tvTotalExpensesAmount);
 
         imgExpenses = findViewById(R.id.imgExpenses);
         imgBalance = findViewById(R.id.imgBalance);
@@ -86,6 +94,7 @@ public class ListExpenses extends AppCompatActivity {
 
         // Obtener los gastos asociados al FairShare
         fetchExpenses();
+        calcTotals();
 
         btnBalance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +136,90 @@ public class ListExpenses extends AppCompatActivity {
             }
         });
     }
+
+    private void calcTotals() {
+        // Declarar final o efectivamente final para acceder dentro de la clase interna
+        final String[] userEmail = {""};
+        final String[] userId = {null};
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            userEmail[0] = user.getEmail();
+        } else {
+            Log.e("ListExpenses", "UNABLE TO FETCH USER EMAIL");
+            return; // Salir del método si no se puede obtener el correo electrónico del usuario
+        }
+
+        DatabaseReference usersRef = FirebaseDatabase.getInstance(REALTIME_PATH).getReference().child("Users");
+        usersRef.orderByChild("email").equalTo(userEmail[0]).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Verificar si se encontró un usuario con el correo electrónico proporcionado
+                if (dataSnapshot.exists()) {
+                    // Obtener el ID del usuario
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        userId[0] = snapshot.getKey();
+                        break; // Solo necesitamos el primer usuario encontrado
+                    }
+
+                    // Verificar si se encontró el ID del usuario
+                    if (userId[0] != null) {
+                        // Obtener referencia a la ubicación de los balances en la base de datos
+                        DatabaseReference balancesRef = FirebaseDatabase.getInstance(REALTIME_PATH).getReference().child("Balance");
+
+                        // Consulta para obtener todos los balances en el FairShare
+                        balancesRef.orderByChild("id_fairshare").equalTo(fairshareId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                // Iterar sobre los balances encontrados
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    // Obtener el valor de "expenses"
+                                    Double expenses = snapshot.child("payments").getValue(Double.class);
+                                    if (expenses != null) {
+                                        // Sumar al total de gastos en el FairShare
+                                        totalFairShareExpenses += expenses;
+
+                                        // Verificar si el balance pertenece al usuario
+                                        String idUser = snapshot.child("id_user").getValue(String.class);
+                                        if (idUser != null && idUser.equals(userId[0])) {
+                                            // Sumar al total de gastos del usuario
+                                            userExpenses += expenses;
+                                        }
+                                    }
+                                }
+
+                                // Imprimir los resultados
+                                Log.d("USER_EXPENSES", "Total expenses for user: " + userExpenses);
+                                Log.d("TOTAL_FAIRSHARE_EXPENSES", "Total expenses in FairShare: " + totalFairShareExpenses);
+
+                                tvMyToal.setText(String.valueOf(userExpenses));
+                                tvTotalExpenses.setText(String.valueOf(totalFairShareExpenses));
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // Manejar errores de la base de datos
+                                Log.e("CALC_TOTALS", "Firebase Database Error: " + databaseError.getMessage());
+                                Toast.makeText(ListExpenses.this, R.string.db_error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Log.e("CALC_TOTALS", "User ID not found");
+                    }
+                } else {
+                    Log.e("CALC_TOTALS", "User with email " + userEmail[0] + " not found");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Manejar errores de la base de datos
+                Log.e("CALC_TOTALS", "Firebase Database Error: " + databaseError.getMessage());
+                Toast.makeText(ListExpenses.this, R.string.db_error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     private void fetchExpenses() {
         // Referencia a la ubicación de los gastos en la base de datos

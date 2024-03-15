@@ -25,10 +25,10 @@ public class Expense implements Serializable {
 
     //Constructor sin ID de expense
 
-    public Expense(String name, String idUser, String idFairshaer, String date, double amount, ArrayList<User> notPayerList) {
+    public Expense(String name, String idUser, String idFairShare, String date, double amount, ArrayList<User> notPayerList) {
         this.name = name;
         this.idUserPayer = idUser;
-        this.idFairshare = idFairshaer;
+        this.idFairshare = idFairShare;
         this.date = date;
         this.amount = amount;
         this.notPayerList = notPayerList;
