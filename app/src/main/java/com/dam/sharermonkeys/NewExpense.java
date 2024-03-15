@@ -33,7 +33,7 @@ import java.util.List;
 
 public class NewExpense extends AppCompatActivity {
     RecyclerView recyclerView;
-    NewExpenseAdapter adapter;
+    NewExpenseAdapter adapterNewExpense;
     EditText etDate;
     Button btnSave;
     Spinner spinnerUsers;
@@ -61,10 +61,8 @@ public class NewExpense extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // TODO PASAR LA LISTA AL ADAPTER
-        adapter = new NewExpenseAdapter(userList, this);
-        recyclerView.setAdapter(adapter);
-
+        adapterNewExpense = new NewExpenseAdapter(userList, NewExpense.this);
+        recyclerView.setAdapter(adapterNewExpense);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +112,8 @@ public class NewExpense extends AppCompatActivity {
 
                 System.out.println(userList.size());
                 setUpSpinnerAdapter();
+                adapterNewExpense.notifyDataSetChanged();
+
             }
 
             @Override

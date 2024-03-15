@@ -38,6 +38,7 @@ public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.It
     public void onBindViewHolder(@NonNull ItemVH holder, int position) {
         User user = participantsList.get(position);
         holder.cbUser.setText(user.getUsername());
+        holder.cbUser.setChecked(user.isSelected());
     }
 
     @Override
