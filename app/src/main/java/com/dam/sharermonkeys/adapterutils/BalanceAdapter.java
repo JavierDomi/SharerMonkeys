@@ -51,7 +51,7 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
         //TODO:
 
         holder.tvUser.setText(balance.getIdUser());
-        holder.tvCantidad.setText(String.valueOf(balance.getPayment()));
+        holder.tvCantidad.setText(String.valueOf(balance.getPayments()));
 
 
         // Obtén el ID de usuario del objeto Expense
@@ -64,12 +64,8 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
         } else {
             holder.tvUser.setText("");
             Toast.makeText(context, R.string.user_id_null, Toast.LENGTH_SHORT).show();
-            Log.e("ExpenseListAdapter", "El ID de usuario es nulo");
+            Log.e("BalanceAdapter", "El ID de usuario es nulo");
         }
-
-
-
-
     }
 
     private void findUsernameById(String userId, TextView tvUser) {

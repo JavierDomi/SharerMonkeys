@@ -21,8 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dam.sharermonkeys.adapterutils.BalanceAdapter;
 import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
 import com.dam.sharermonkeys.fragments.BalanceFragment;
+import com.dam.sharermonkeys.pojos.Balance;
 import com.dam.sharermonkeys.pojos.Expense;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,7 +44,9 @@ public class ListExpenses extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference reference;
     ArrayList<Expense> list;
+    ArrayList<Balance> balances;
     ExpenseListAdapter adapter;
+    BalanceAdapter balanceAdapter;
     String fairshareId;
     Button btnBalance, btnExpenses, btnNewExpense;;
     ImageView imgExpenses, imgBalance;
@@ -56,6 +60,8 @@ public class ListExpenses extends AppCompatActivity {
 
         // Inicializar UI
         initializeUI();
+
+        balances = new ArrayList<>();
 
         userExpenses = 0.00;
         totalFairShareExpenses = 0.00;
@@ -87,6 +93,10 @@ public class ListExpenses extends AppCompatActivity {
 
         // Inicializar el adaptador con la lista vacía
         adapter = new ExpenseListAdapter(list, this);
+        recyclerView.setAdapter(adapter);
+
+        balances = new ArrayList<>();
+        balanceAdapter = new BalanceAdapter(balances, this);
         recyclerView.setAdapter(adapter);
 
         // Obtener referencia a la base de datos
@@ -174,16 +184,29 @@ public class ListExpenses extends AppCompatActivity {
                                 // Iterar sobre los balances encontrados
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                     // Obtener el valor de "expenses"
-                                    Double expenses = snapshot.child("payments").getValue(Double.class);
-                                    if (expenses != null) {
+                                    Double payments = snapshot.child("payments").getValue(Double.class);
+                                    if (payments != null) {
                                         // Sumar al total de gastos en el FairShare
-                                        totalFairShareExpenses += expenses;
+                                        totalFairShareExpenses += payments;
+
+                                        Balance balance = new Balance();
+                                        balance.setPayments(payments);
+                                        balance.setIdFareshare(snapshot.child("id_fairshare").getValue(String.class));
+                                        balance.setIdUser(snapshot.child("id_user").getValue(String.class));
+                                        balance.setExpenses(snapshot.child("expenses").getValue(Double.class));
+
+                                        System.out.println("EN FOR DE LISTEXPENSES Payments: " + balance.getPayments());
+                                        System.out.println("EN FOR DE LISTEXPENSES Expenses: " + balance.getExpenses());
+                                        System.out.println("EN FOR DE LISTEXPENSES UserId: " + balance.getIdUser());
+                                        System.out.println("EN FOR DE LISTEXPENSES FairShareId: " + balance.getIdFareshare());
+
+                                        balances.add(balance);
 
                                         // Verificar si el balance pertenece al usuario
                                         String idUser = snapshot.child("id_user").getValue(String.class);
                                         if (idUser != null && idUser.equals(userId[0])) {
                                             // Sumar al total de gastos del usuario
-                                            userExpenses += expenses;
+                                            userExpenses += payments;
                                         }
                                     }
                                 }
@@ -252,6 +275,7 @@ public class ListExpenses extends AppCompatActivity {
                 }
                 // Notificar al adaptador que los datos han cambiado
                 adapter.notifyDataSetChanged();
+                balanceAdapter.notifyDataSetChanged();
                 Log.d("LISTEXPENSES", "Number of items in list: " + list.size());
             }
 

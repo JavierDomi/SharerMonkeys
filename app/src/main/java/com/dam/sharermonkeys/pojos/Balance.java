@@ -4,8 +4,17 @@ public class Balance {
 
     private String idUser; //user.getName
     private String idFareshare; //fareshare.getIdFareshare
-    private double expense;
-    private double payment;
+    private double expenses;
+    private double payments;
+
+    public Balance(){};
+
+    public Balance(String idUser, String idFareshare, double expense, double payment) {
+        this.idUser = idUser;
+        this.idFareshare = idFareshare;
+        this.expenses = expense;
+        this.payments = payment;
+    }
 
     public Balance(String idUser) {
         this.idUser = idUser;
@@ -27,27 +36,27 @@ public class Balance {
         this.idFareshare = idFareshare;
     }
 
-    public double getExpense() {
-        return expense;
+    public double getExpenses() {
+        return expenses;
     }
 
-    public void setExpense(double expense) {
-        this.expense = expense;
+    public void setExpenses(double expenses) {
+        this.expenses = expenses;
     }
 
-    public double getPayment() {
-        return payment;
+    public double getPayments() {
+        return payments;
     }
 
-    public void setPayment(double payment) {
-        this.payment = payment;
+    public void setPayments(double payments) {
+        this.payments = payments;
     }
 
 
     // Get total owed or to pay (+ or -)
     public double calculateTotal() {
 
-        return payment - expense;
+        return payments - expenses;
 
     }
 
