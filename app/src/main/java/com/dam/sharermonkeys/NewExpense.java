@@ -123,9 +123,7 @@ public class NewExpense extends AppCompatActivity {
 
     private void fetchUsers(String fairShairId) {
 
-
         userList = new ArrayList<User>();
-
         databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -141,7 +139,7 @@ public class NewExpense extends AppCompatActivity {
                             String fairshareId = fairshareSnapshot.child("id_fairshare").getValue(String.class);
 
                             // Verifica si el fairshareId coincide con el que estás buscando
-                            if (fairshareId.equals(fairshareId)) {
+                            if (fairshareId.equals(fairShairId)) {
                                 // Si coincide, agrega el usuario a la lista y sal del bucle
                                 User user = new User(username, userId, email, null);
                                 user.setSelected(true);
