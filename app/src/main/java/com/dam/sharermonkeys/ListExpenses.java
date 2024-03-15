@@ -100,8 +100,6 @@ public class ListExpenses extends AppCompatActivity {
                 recyclerView.setVisibility(View.GONE);
                 ft.commit();
 
-
-
             }
         });
         btnExpenses.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +111,6 @@ public class ListExpenses extends AppCompatActivity {
                 recyclerView.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().popBackStackImmediate();
 
-
-
             }
         });
 
@@ -122,6 +118,7 @@ public class ListExpenses extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ListExpenses.this, NewExpense.class);
+                i.putExtra("fairshareId", fairshareId);
                 startActivity(i);
             }
         });
@@ -132,7 +129,8 @@ public class ListExpenses extends AppCompatActivity {
         DatabaseReference expensesRef = reference.child("Expenses");
 
         // Consulta para filtrar los gastos por el ID del FairShare
-        expensesRef.orderByChild("id_fairshare").equalTo(fairshareId).addListenerForSingleValueEvent(new ValueEventListener() {
+        expensesRef.orderByChild("id_fairshare").equalTo(fairshareId).
+                addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Limpiar la lista actual de gastos

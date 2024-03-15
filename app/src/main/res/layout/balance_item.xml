@@ -14,16 +14,21 @@
         <TextView
             android:id="@+id/tvUser"
             android:layout_width="0dp"
+            android:background="@color/share"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="User 1"
+            android:textStyle="bold"
             android:textAlignment="center"/>
+
         <TextView
             android:id="@+id/tvCantidad"
             android:layout_width="0dp"
+            android:background="@color/share"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="0,00€"
+            android:textStyle="bold"
             android:textAlignment="center"/>
     </LinearLayout>
 

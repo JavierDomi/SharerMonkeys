@@ -1,27 +1,36 @@
 package com.dam.sharermonkeys.adapterutils;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.dam.sharermonkeys.MainActivity;
 import com.dam.sharermonkeys.R;
 import com.dam.sharermonkeys.pojos.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.ItemVH> {
-
     private ArrayList<User> participantsList;
+    Context context;
+    DatabaseReference databaseReference;
 
-    public NewExpenseAdapter(ArrayList<User> participantsList) {
+    public NewExpenseAdapter(ArrayList<User> participantsList, Context context) {
         this.participantsList = participantsList;
+        this.context = context;
+        databaseReference = FirebaseDatabase.getInstance(MainActivity.REALTIME_PATH).getReference();
     }
 
     @NonNull
     @Override
     public ItemVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_list_expenses, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_expense_item, parent, false);
         return new ItemVH(view);
     }
 
