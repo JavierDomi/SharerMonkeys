@@ -22,11 +22,13 @@
         <activity
             android:name=".NewFairShare"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.SharerMonkeys.NoActionBar"> <!-- Aplicando el tema sin barra de acción -->
         </activity>
         <activity
             android:name=".NewExpense"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.SharerMonkeys.NoActionBar"> <!-- Aplicando el tema sin barra de acción -->
         </activity>
         <activity
