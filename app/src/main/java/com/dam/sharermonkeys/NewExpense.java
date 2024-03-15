@@ -88,11 +88,9 @@ public class NewExpense extends AppCompatActivity {
 
         userList = new ArrayList<User>();
 
-        // Establece un listener para obtener los datos de la base de datos
         databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Itera sobre los datos para encontrar los usuarios que cumplan con el criterio
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     // Obtén los datos de cada usuario
                     String username = userSnapshot.child("username").getValue(String.class);
@@ -100,17 +98,24 @@ public class NewExpense extends AppCompatActivity {
                     String userId = userSnapshot.getKey();
 
                     // Verifica si el usuario tiene participación en el fairshare deseado
-                    if (userSnapshot.child("participa_fairshares").hasChild(fairShairId)) {
-                        // Agrega el usuario a tu lista de usuarios que cumplen con el criterio
-                        User user = new User(username, email, userId, null);
-                        userList.add(user);
+                    if (userSnapshot.child("participa_fairshares").exists()) {
+                        for (DataSnapshot fairshareSnapshot : userSnapshot.child("participa_fairshares").getChildren()) {
+                            String fairshareId = fairshareSnapshot.child("id_fairshare").getValue(String.class);
+
+                            // Verifica si el fairshareId coincide con el que estás buscando
+                            if (fairshareId.equals(fairshareId)) {
+                                // Si coincide, agrega el usuario a la lista y sal del bucle
+                                User user = new User(username, email, userId, null);
+                                userList.add(user);
+                                break;
+                            }
+                        }
                     }
                 }
 
                 System.out.println(userList.size());
                 setUpSpinnerAdapter();
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
