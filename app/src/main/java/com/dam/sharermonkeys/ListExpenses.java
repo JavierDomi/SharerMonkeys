@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dam.sharermonkeys.adapterutils.BalanceAdapter;
+
 import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
 import com.dam.sharermonkeys.fragments.BalanceFragment;
 import com.dam.sharermonkeys.pojos.Balance;
@@ -42,12 +42,12 @@ public class ListExpenses extends AppCompatActivity {
 
     public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
     RecyclerView recyclerViewExpenses;
-    RecyclerView recyclerViewBalance;
+    //RecyclerView recyclerViewBalance;
     DatabaseReference reference;
     ArrayList<Expense> list;
-    ArrayList<Balance> balances;
+   // ArrayList<Balance> balances;
     ExpenseListAdapter adapter;
-    BalanceAdapter balanceAdapter;
+   // BalanceAdapter balanceAdapter;
     String fairshareId;
     Button btnBalance, btnExpenses, btnNewExpense;;
     ImageView imgExpenses, imgBalance;
@@ -81,11 +81,7 @@ public class ListExpenses extends AppCompatActivity {
         recyclerViewExpenses.setHasFixedSize(true);
         recyclerViewExpenses.setLayoutManager(new LinearLayoutManager(this));
 
-        // Inicializar el RecyclerView de balance
-        //TODO POR QUE NO MUESTRA EL BALANCE_ITEM DENTRO DEL FRAGMENT_BALANCE
-        //recyclerViewBalance = findViewById(R.id.rvGrafic);
-        recyclerViewBalance.setHasFixedSize(true);
-        recyclerViewBalance.setLayoutManager(new LinearLayoutManager(this));
+
 
         // Inicializar los botones
         btnExpenses =findViewById(R.id.btnExpenses);
@@ -100,10 +96,7 @@ public class ListExpenses extends AppCompatActivity {
         adapter = new ExpenseListAdapter(list, this);
         recyclerViewExpenses.setAdapter(adapter);
 
-        balances = new ArrayList<>();
-        balanceAdapter = new BalanceAdapter(balances, this);
 
-        recyclerViewBalance.setAdapter(balanceAdapter);
 
         // Obtener referencia a la base de datos
         reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference();
@@ -121,13 +114,15 @@ public class ListExpenses extends AppCompatActivity {
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 BalanceFragment bf = new BalanceFragment();
-                ft.replace(R.id.fragmentContainer, bf);
+                Bundle bundle = new Bundle();
+                bundle.putString("id_fairshare", fairshareId);
+                bf.setArguments(bundle); // Establece los argumentos en 'bf'.
+                ft.replace(R.id.fragmentContainer, bf); // Usa 'bf' en la transacción.
                 ft.addToBackStack(null);
                 recyclerViewExpenses.setVisibility(View.GONE);
-                ft.commit();
-
                 getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
+                ft.commit();
 
             }
         });
@@ -205,10 +200,6 @@ public class ListExpenses extends AppCompatActivity {
                                         System.out.println("EN FOR DE LISTEXPENSES Expenses: " + balance.getExpenses());
                                         System.out.println("EN FOR DE LISTEXPENSES UserId: " + balance.getIdUser());
                                         System.out.println("EN FOR DE LISTEXPENSES FairShareId: " + balance.getIdFareshare());
-
-                                        balances.add(balance);
-
-                                        balanceAdapter.notifyDataSetChanged();
 
                                         // Verificar si el balance pertenece al usuario
                                         String idUser = snapshot.child("id_user").getValue(String.class);
@@ -319,4 +310,6 @@ public class ListExpenses extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

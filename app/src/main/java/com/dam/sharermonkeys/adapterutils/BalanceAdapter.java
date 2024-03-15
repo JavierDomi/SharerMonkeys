@@ -1,6 +1,7 @@
 package com.dam.sharermonkeys.adapterutils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,8 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
     Context context;
     DatabaseReference databaseReference;
 
+
+
     public BalanceAdapter(ArrayList<Balance> balancesList, Context context) {
         this.balancesList = balancesList;
         this.context = context;
@@ -53,6 +56,17 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
         holder.tvUser.setText(balance.getIdUser());
         holder.tvCantidad.setText(String.valueOf(balance.getPayments()));
 
+
+        // Verificar si el valor de payments es menor que 0
+        if (balance.getPayments() < 0) {
+            // Cambiar el color del texto del TextView a rojo
+            holder.tvCantidadBalance.setBackgroundColor(Color.RED);
+        } if (balance.getPayments() > 0) {
+            holder.tvCantidadBalance.setBackgroundColor(Color.GREEN);
+        } else {
+            // Restablecer el color del texto a su valor por defecto
+            holder.tvCantidadBalance.setBackgroundColor(Color.parseColor("#E5E5DC"));
+        }
 
         // Obtén el ID de usuario del objeto Expense
         String userId = balance.getIdUser();
@@ -101,6 +115,8 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
 
         CardView recCardBalance;
         TextView tvUser, tvCantidad;
+        TextView tvUserBalance;
+        TextView tvCantidadBalance;
 
         public ItemVH(@NonNull View itemView) {
             super(itemView);
@@ -108,7 +124,10 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
             recCardBalance = itemView.findViewById(R.id.recCardBalance);
             tvUser = itemView.findViewById(R.id.tvUserBalance);
             tvCantidad = itemView.findViewById(R.id.tvCantidadBalance);
+            tvUserBalance = itemView.findViewById(R.id.tvUserBalance);
+            tvCantidadBalance = itemView.findViewById(R.id.tvCantidadBalance);
 
         }
     }
+
 }

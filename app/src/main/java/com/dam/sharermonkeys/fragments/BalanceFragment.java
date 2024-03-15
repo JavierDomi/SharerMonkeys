@@ -1,7 +1,9 @@
 package com.dam.sharermonkeys.fragments;
+import com.dam.sharermonkeys.MainActivity;
 import com.google.firebase.database.DatabaseError;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,56 +15,71 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dam.sharermonkeys.ListExpenses;
+
 import com.dam.sharermonkeys.R;
 import com.dam.sharermonkeys.adapterutils.BalanceAdapter;
 import com.dam.sharermonkeys.pojos.Balance;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class BalanceFragment extends Fragment {
+
+    public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
+
     RecyclerView recyclerViewBalance;
     DatabaseReference reference;
-    ArrayList<Balance>list;
+    ArrayList<Balance> balances;
     BalanceAdapter balanceAdapter;
     String fairshareId;
-
+    TextView tvUserBalance, tvCantidadBalance;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         View view = inflater.inflate(R.layout.fragment_balance, container, false);
 
-        // Obtener una referencia a la base de datos
-        reference = FirebaseDatabase.getInstance().getReference();
 
-        // Inicializar la lista de balances
-        list = new ArrayList<>();
+        //Obtenemos argumentos del fragmento
+        Bundle args = getArguments();
+        if (args != null) {
+            fairshareId = args.getString("id_fairshare");
+        } else {
+            // Manejar el caso donde no hay argumentos pasados.
+            Log.e("BalanceFragment", "No se pasaron argumentos al fragmento.");
+            // Considera cerrar el fragmento o mostrar un mensaje adecuado.
+        }
+
+        // Obtener el fairshareId de los argumentos
+        fairshareId = getArguments().getString("id_fairshare");
 
         // Inicializar el RecyclerView y el adaptador
         recyclerViewBalance = view.findViewById(R.id.rvGrafic);
+        recyclerViewBalance.setHasFixedSize(true);
         recyclerViewBalance.setLayoutManager(new LinearLayoutManager(getActivity()));
-        balanceAdapter = new BalanceAdapter(list, getActivity());
+
+        // Inicializar la lista de balances
+        balances = new ArrayList<>();
+        balanceAdapter = new BalanceAdapter(balances,getActivity());
         recyclerViewBalance.setAdapter(balanceAdapter);
+
+        // Obtener una referencia a la base de datos
+        reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference();
+
 
         // Llamar al método para cargar los datos desde la base de datos
         fetchBalances();
-
-
-
         return view;
     }
+
+
 
     private void fetchBalances() {
         // Referencia a la ubicación de los balances en la base de datos
@@ -72,25 +89,25 @@ public class BalanceFragment extends Fragment {
         balancesRef.orderByChild("id_fairshare").equalTo(fairshareId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Limpiar la lista actual de balances
-                list.clear();
-                // Iterar sobre los balances encontrados
+                balances.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    // Obtener cada balance y añadirlo a la lista
                     Balance balance = snapshot.getValue(Balance.class);
+                    if (balance != null) {
+                        String userId = snapshot.child("id_user").getValue(String.class);
+                        balance.setIdUser(userId);
+                        balances.add(balance);
+                        Log.d("LISTBALANCES", "Balance: " + balance.getIdUser());
 
-                    //Set manually porque firebase no funciona bien
-                    String userId = snapshot.child("id_user").getValue(String.class);
-                    balance.setIdUser(userId);
 
-                    list.add(balance);
-                    Log.d("LISTBALANCES", "Balance: " + balance.getIdUser());
+                    }
                 }
-                // Notificar al adaptador que los datos han cambiado
-                balanceAdapter.notifyDataSetChanged();
-                Log.d("LISTBALANCES", "Number of items in list: " + list.size());
+                if (!balances.isEmpty()) {
+                    balanceAdapter.notifyDataSetChanged();
+                    Log.d("LISTBALANCES", "Number of items in list: " + balances.size());
+                } else {
+                    Log.d("LISTBALANCES", "List is empty.");
+                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("LISTBALANCES", "Firebase Database Error: " + error.getMessage());
@@ -98,7 +115,13 @@ public class BalanceFragment extends Fragment {
             }
 
         });
+
+
+
     }
+
+
+
 
 
 }
