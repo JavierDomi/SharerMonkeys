@@ -42,7 +42,6 @@ public class BalanceFragment extends Fragment {
     BalanceAdapter balanceAdapter;
     OwesAdapter owesAdapter;
     String fairshareId;
-    TextView tvUserBalance, tvCantidadBalance;
 
 
     @Override
