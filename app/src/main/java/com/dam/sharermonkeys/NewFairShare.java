@@ -95,98 +95,105 @@
                     String title = etTitle.getText().toString(),
                             desc = etDesc.getText().toString();
 
-                    if (!title.equals("") && !desc.equals("") && !participantsList.isEmpty()) {
+                    if (!title.equals("") && !desc.equals("")) {
 
-                        DatabaseReference newFairShareRef = usersRef.push(); // Crear una nueva referencia para el nuevo fairShare
-                        String fairShareId = newFairShareRef.getKey();
+                        if (participantsList.size() > 1 && !participantsList.isEmpty()) {
 
-                        /*newFairShare.setName(title);
-                        newFairShare.setDescription(desc);
-                        newFairShare.setUserList(participantsList);*/
+                            DatabaseReference newFairShareRef = usersRef.push(); // Crear una nueva referencia para el nuevo fairShare
+                            String fairShareId = newFairShareRef.getKey();
 
-                        Map<String, Object> newFairShare = new HashMap<>();
-                        newFairShare.put("name", title);
-                        newFairShare.put("description", desc);
-                        newFairShare.put("participants", participantsList);
+                            /*newFairShare.setName(title);
+                            newFairShare.setDescription(desc);
+                            newFairShare.setUserList(participantsList);*/
 
-                        newFairShareRef.setValue(newFairShare).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
+                            Map<String, Object> newFairShare = new HashMap<>();
+                            newFairShare.put("name", title);
+                            newFairShare.put("description", desc);
+                            newFairShare.put("participants", participantsList);
 
-                                clearFields();
+                            newFairShareRef.setValue(newFairShare).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
 
-                                Toast.makeText(NewFairShare.this, R.string.new_fairShare_uploaded, Toast.LENGTH_SHORT).show();
+                                    clearFields();
 
-                                for (User participant : participantsList) {
-                                    Query query = reference.orderByChild("email").equalTo(participant.getEmail());
-                                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            if (dataSnapshot.exists()) {
-                                                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                                    String userId = userSnapshot.getKey();
-                                                    DatabaseReference userRef = reference.child(userId).child("participa_fairshares");
-                                                    Map<String, Object> fairShareMap = new HashMap<>();
-                                                    fairShareMap.put("id_fairshare", fairShareId); // El ID del nuevo fairShare
-                                                    fairShareMap.put("name", title); // Nombre del fairShare
-                                                    fairShareMap.put("description", desc); // Descripción del fairShare
-                                                    userRef.push().setValue(fairShareMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void unused) {
-                                                            // Crear el objeto Balance después de crear el FairShare
-                                                            DatabaseReference balanceRef = FirebaseDatabase.getInstance(REALTIME_PATH)
-                                                                    .getReference("Balance");
-                                                            Map<String, Object> balanceMap = new HashMap<>();
-                                                            balanceMap.put("id_fairshare", fairShareId);
-                                                            balanceMap.put("id_user", userId);
-                                                            balanceMap.put("expenses", 0); // set default value to 0
-                                                            balanceMap.put("payments", 0);
-                                                            balanceRef.push().setValue(balanceMap);
+                                    Toast.makeText(NewFairShare.this, R.string.new_fairShare_uploaded, Toast.LENGTH_SHORT).show();
 
-                                                            balanceRef.addValueEventListener(new ValueEventListener() {
-                                                                @Override
-                                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (User participant : participantsList) {
+                                        Query query = reference.orderByChild("email").equalTo(participant.getEmail());
+                                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                if (dataSnapshot.exists()) {
+                                                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                                                        String userId = userSnapshot.getKey();
+                                                        DatabaseReference userRef = reference.child(userId).child("participa_fairshares");
+                                                        Map<String, Object> fairShareMap = new HashMap<>();
+                                                        fairShareMap.put("id_fairshare", fairShareId); // El ID del nuevo fairShare
+                                                        fairShareMap.put("name", title); // Nombre del fairShare
+                                                        fairShareMap.put("description", desc); // Descripción del fairShare
+                                                        userRef.push().setValue(fairShareMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                // Crear el objeto Balance después de crear el FairShare
+                                                                DatabaseReference balanceRef = FirebaseDatabase.getInstance(REALTIME_PATH)
+                                                                        .getReference("Balance");
+                                                                Map<String, Object> balanceMap = new HashMap<>();
+                                                                balanceMap.put("id_fairshare", fairShareId);
+                                                                balanceMap.put("id_user", userId);
+                                                                balanceMap.put("expenses", 0); // set default value to 0
+                                                                balanceMap.put("payments", 0);
+                                                                balanceRef.push().setValue(balanceMap);
 
-                                                                    refreshAndLaunchMainActivity();
+                                                                balanceRef.addValueEventListener(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                                                }
+                                                                        refreshAndLaunchMainActivity();
 
-                                                                @Override
-                                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                                    }
 
-                                                                    Toast.makeText(NewFairShare.this, R.string.unable_to_upload_balance, Toast.LENGTH_SHORT).show();
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                                                }
-                                                            });
+                                                                        Toast.makeText(NewFairShare.this, R.string.unable_to_upload_balance, Toast.LENGTH_SHORT).show();
+
+                                                                    }
+                                                                });
 
 
-
-                                                        }
-                                                    }).addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            Toast.makeText(NewFairShare.this, "Error creating FairShare: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(NewFairShare.this, "Error creating FairShare: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    }
                                                 }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            Toast.makeText(NewFairShare.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Toast.makeText(NewFairShare.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
                                 }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(NewFairShare.this, R.string.unable_to_upload_fairShare, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } else {
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(NewFairShare.this, R.string.unable_to_upload_fairShare, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(NewFairShare.this, R.string.minimun_participants, Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else  {
+
                         Toast.makeText(NewFairShare.this, R.string.complete_all_fields, Toast.LENGTH_SHORT).show();
+
                     }
                 }
             });

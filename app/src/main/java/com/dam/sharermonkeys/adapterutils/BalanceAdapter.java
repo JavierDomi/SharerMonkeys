@@ -54,7 +54,9 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
         Balance balance = balancesList.get(position);
 
         holder.tvUser.setText(balance.getIdUser());
-        holder.tvCantidad.setText(String.valueOf(balance.calculateTotal()));
+        double total = balance.calculateTotal();
+        double roundedTotal = Math.round(total * 100.0) / 100.0; // Redondea a dos decimales
+        holder.tvCantidad.setText(String.format("%.2f", roundedTotal));
 
 
         // Verificar si el valor de payments es menor que 0

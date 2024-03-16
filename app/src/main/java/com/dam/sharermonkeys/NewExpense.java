@@ -86,7 +86,7 @@ public class NewExpense extends AppCompatActivity {
                 // payer = selectedPayer
                 ArrayList<User> participants = adapterNewExpense.getSelectedUsers();
 
-                if (!title.equals("") && !date.equals("") && !sAmount.equals("")) {
+                if (!title.equals("") && !date.equals("") && !sAmount.equals("") && participants.size() > 0) {
 
                     double amount = Double.parseDouble(sAmount);
 

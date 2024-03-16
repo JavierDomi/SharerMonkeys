@@ -72,7 +72,8 @@ public class OwesAdapter extends RecyclerView.Adapter<OwesAdapter.ItemVH> {
                     String userName = dataSnapshot.getValue(String.class);
                     Log.d("OwesAdapter", "USERNAME: " + userName);
                     tvUser.setText(userName);
-                    tvEuro.setText(String.valueOf(transaction));
+                    double roundedTransaction = Math.round(transaction * 100.0) / 100.0;
+                    tvEuro.setText(String.format("%.2f", roundedTransaction));
                 } else {
                     tvUser.setText("ERROR");
                     Toast.makeText(context, R.string.username_not_found, Toast.LENGTH_SHORT).show();
