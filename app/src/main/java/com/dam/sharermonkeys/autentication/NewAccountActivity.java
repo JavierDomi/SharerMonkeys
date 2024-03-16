@@ -59,8 +59,9 @@ public class NewAccountActivity extends AppCompatActivity {
 
                 String email = String.valueOf(etEmail.getText());
                 String password = String.valueOf(etPassword.getText());
+                String username = String.valueOf(etUsername.getText());
 
-                if(!validateEmail(email) || !validatePassword()){
+                if(!validateEmail(email) || !validateUsername() || !validatePassword() ){
                     return;
                 }
 
@@ -114,6 +115,18 @@ public class NewAccountActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private boolean validateUsername() {
+
+        String username = String.valueOf(etUsername.getText());
+
+        if (username.isEmpty() || username.equals("")) {
+            Toast.makeText(NewAccountActivity.this, R.string.enter_username, Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private boolean validatePassword() {

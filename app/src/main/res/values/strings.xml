@@ -88,6 +88,7 @@
     <string name="unable_fetch_balance">Unable to fetch balance</string>
     <string name="expese_created">Expense created</string>
     <string name="minimun_participants">There must be at least two participants</string>
+    <string name="enter_username">Enter a username</string>
 
 
 </resources>
