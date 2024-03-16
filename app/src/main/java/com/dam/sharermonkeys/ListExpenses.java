@@ -301,15 +301,29 @@ public class ListExpenses extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed(); // Volver a la actividad anterior
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            // Si hay fragmentos en el back stack, pop el último fragmento
+            fm.popBackStack();
+        } else {
+            // Si no hay fragmentos en el back stack, dejar que la actividad se cierre normalmente
+            super.onBackPressed();
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // ID del botón de retroceso en la ActionBar
+        if (item.getItemId() == android.R.id.home) {
+            // Finaliza la actividad actual para volver a MainActivity
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 
 }

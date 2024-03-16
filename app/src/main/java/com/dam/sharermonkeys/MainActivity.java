@@ -1,5 +1,6 @@
 package com.dam.sharermonkeys;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -64,7 +65,27 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(i);
             }
         });
+
+        //---- Manejo alternativo del botón de retroceso
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Muestra el AlertDialog aquí, similar a tu implementación en onBackPressed()
+                new AlertDialog.Builder(MainActivity.this)
+                        .setMessage(R.string.message_dialog_exit)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                                System.exit(0);
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_no, null)
+                        .show();
+            }
+        });
     }
+
 
     private void inicializeUI() {
 

@@ -44,6 +44,7 @@ public class BalanceFragment extends Fragment {
     String fairshareId;
     TextView tvUserBalance, tvCantidadBalance;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class BalanceFragment extends Fragment {
         }
 
         // Obtener el fairshareId de los argumentos
-        fairshareId = getArguments().getString("id_fairshare");
+        //fairshareId = getArguments().getString("id_fairshare");
         // Inicializar el RecyclerView y el adaptador
         recyclerViewBalance = view.findViewById(R.id.rvGrafic);
         recyclerViewBalance.setHasFixedSize(true);
@@ -123,4 +124,6 @@ public class BalanceFragment extends Fragment {
             }
         });
     }
+
+
 }
