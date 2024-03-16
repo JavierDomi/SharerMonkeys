@@ -10,11 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dam.sharermonkeys.MainActivity;
 import com.dam.sharermonkeys.R;
+import com.dam.sharermonkeys.intefaces.UpdateListener;
 import com.dam.sharermonkeys.pojos.Balance;
 import com.dam.sharermonkeys.pojos.Transaction;
 import com.google.firebase.database.DataSnapshot;
@@ -33,16 +35,16 @@ public class OwesAdapter extends RecyclerView.Adapter<OwesAdapter.ItemVH> {
     ArrayList<Transaction> transactions;
     Context context;
     DatabaseReference databaseReference;
+    String fairShareid;
+    private UpdateListener updateListener;
 
 
 
-    public OwesAdapter(ArrayList<Transaction> transactions, Context context) {
+    public OwesAdapter(ArrayList<Transaction> transactions, String fairShareid, Context context) {
         this.transactions = transactions;
         this.context = context;
+        this.fairShareid = fairShareid;
         this.databaseReference = FirebaseDatabase.getInstance(MainActivity.REALTIME_PATH).getReference();
-
-
-
     }
 
     @NonNull
@@ -60,7 +62,106 @@ public class OwesAdapter extends RecyclerView.Adapter<OwesAdapter.ItemVH> {
         findUsernameById(transaction.getDeudor(), holder.tvUser1, transaction.getCantidad(), holder.tvEuro);
         findUsernameById(transaction.getAcreedor(), holder.tvUser2, transaction.getCantidad(), holder.tvEuro);
 
+        holder.btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(context, "click", Toast.LENGTH_SHORT).show();
+
+                updateBalances(transaction.getDeudor(), transaction.getAcreedor(), transaction.getCantidad());
+
+                notifyDataSetChanged();
+
+            }
+        });
+
     }
+
+    private void updateBalances(String deudorId, String acreedorId, double cantidad) {
+        // Referencia a la ubicación del balance del deudor
+        DatabaseReference deudorBalanceRef = databaseReference.child("Balance");
+        // Referencia a la ubicación del balance del acreedor
+        DatabaseReference acreedorBalanceRef = databaseReference.child("Balance");
+
+        deudorBalanceRef.orderByChild("id_fairshare").equalTo(fairShareid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshotsnapshot) {
+                for (DataSnapshot snapshot : dataSnapshotsnapshot.getChildren()) {
+
+                    Balance balance = snapshot.getValue(Balance.class);
+                    String idFairShare = snapshot.child("id_fairshare").getValue(String.class);
+                    String idUser = snapshot.child("id_user").getValue(String.class);
+                    balance.setIdUser(idUser);
+                    balance.setIdFareshare(idFairShare);
+                    if (balance != null) {
+                        if (balance.getIdFareshare().equals(fairShareid) && balance.getIdUser().equals(deudorId)) {
+                            double expenses = balance.getExpenses();
+                            expenses -= cantidad;
+                            snapshot.getRef().child("expenses").setValue(expenses, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                    if (updateListener != null) {
+                                        updateListener.onUpdateCompleted();
+                                        notifyDataSetChanged();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+                // Notificar al componente que está escuchando que se ha completado la actualización
+                if (updateListener != null) {
+                    updateListener.onUpdateCompleted();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                Toast.makeText(context, "Unable to update balance1", Toast.LENGTH_SHORT);
+
+            }
+        });
+
+        acreedorBalanceRef.orderByChild("id_fairshare").equalTo(fairShareid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Balance balance = snapshot.getValue(Balance.class);
+                    String idUser = snapshot.child("id_user").getValue(String.class);
+                    String idFairShare = snapshot.child("id_fairshare").getValue(String.class);
+                    balance.setIdUser(idUser);
+                    balance.setIdFareshare(idFairShare);
+                    if (balance != null) {
+                        if (balance.getIdFareshare().equals(fairShareid) && balance.getIdUser().equals(acreedorId)) {
+                            double expenses = balance.getExpenses();
+                            expenses += cantidad;
+                            snapshot.getRef().child("expenses").setValue(expenses, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                    if (updateListener != null) {
+                                        updateListener.onUpdateCompleted();
+                                        notifyDataSetChanged();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+                // Notificar al componente que está escuchando que se ha completado la actualización
+                if (updateListener != null) {
+                    updateListener.onUpdateCompleted();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Unable to update balance2", Toast.LENGTH_SHORT);
+            }
+        });
+
+    }
+
 
 
     private void findUsernameById(String userId, TextView tvUser, double transaction, TextView tvEuro) {
@@ -110,5 +211,8 @@ public class OwesAdapter extends RecyclerView.Adapter<OwesAdapter.ItemVH> {
             tvEuro = itemView.findViewById(R.id.tvEuro);
             btnPay = itemView.findViewById(R.id.btnPay);
         }
+    }
+    public void setUpdateListener(UpdateListener listener) {
+        this.updateListener = listener;
     }
 }

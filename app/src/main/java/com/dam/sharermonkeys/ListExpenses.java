@@ -222,8 +222,8 @@ public class ListExpenses extends AppCompatActivity {
                                 Log.d("USER_EXPENSES", "Total expenses for user: " + userExpenses);
                                 Log.d("TOTAL_FAIRSHARE_EXPENSES", "Total expenses in FairShare: " + totalFairShareExpenses);
 
-                                tvMyToal.setText(String.valueOf(userExpenses));
-                                tvTotalExpenses.setText(String.valueOf(totalFairShareExpenses));
+                                tvMyToal.setText(String.format("%.2f", userExpenses));
+                                tvTotalExpenses.setText(String.format("%.2f", totalFairShareExpenses));
                             }
 
                             @Override

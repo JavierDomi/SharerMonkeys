@@ -9,9 +9,9 @@ public class Balance {
 
     public Balance(){};
 
-    public Balance(String idUser, String idFareshare, double expense, double payment) {
+    public Balance(String idUser, String idFairshare, double expense, double payment) {
         this.idUser = idUser;
-        this.idFareshare = idFareshare;
+        this.idFareshare = idFairshare;
         this.expenses = expense;
         this.payments = payment;
     }
@@ -59,5 +59,7 @@ public class Balance {
         return payments - expenses;
 
     }
+
+
 
 }

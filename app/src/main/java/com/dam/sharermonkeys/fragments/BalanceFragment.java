@@ -2,6 +2,7 @@ package com.dam.sharermonkeys.fragments;
 import com.dam.sharermonkeys.MainActivity;
 import com.dam.sharermonkeys.adapterutils.OwesAdapter;
 import com.dam.sharermonkeys.intefaces.FetchBalancesCallback;
+import com.dam.sharermonkeys.intefaces.UpdateListener;
 import com.dam.sharermonkeys.pojos.Expense;
 import com.dam.sharermonkeys.pojos.Transaction;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BalanceFragment extends Fragment implements FetchBalancesCallback {
+public class BalanceFragment extends Fragment implements FetchBalancesCallback, UpdateListener {
 
     public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
 
@@ -91,12 +92,11 @@ public class BalanceFragment extends Fragment implements FetchBalancesCallback {
         recyclerViewOwes = view.findViewById(R.id.rvOwesTo);
         recyclerViewOwes.setHasFixedSize(true);
         recyclerViewOwes.setLayoutManager(new LinearLayoutManager(getActivity()));
-        owesAdapter = new OwesAdapter(transactions, getActivity());
+        owesAdapter = new OwesAdapter(transactions,fairshareId, getActivity());
         recyclerViewOwes.setAdapter(owesAdapter);
 
         return view;
     }
-
 
     private ArrayList<Transaction> calculateTransactions() {
 
@@ -183,12 +183,14 @@ public class BalanceFragment extends Fragment implements FetchBalancesCallback {
     @Override
     public void onBalancesFetched() {
 
-        Toast.makeText(getContext(), String.valueOf(balances.size()), Toast.LENGTH_SHORT).show();
-
-        transactions = calculateTransactions(); // Llamar a calculateTransactions() aquí
+        transactions = calculateTransactions();
         owesAdapter.notifyDataSetChanged();
 
     }
 
 
+    @Override
+    public void onUpdateCompleted() {
+        fetchBalances(this);
+    }
 }
