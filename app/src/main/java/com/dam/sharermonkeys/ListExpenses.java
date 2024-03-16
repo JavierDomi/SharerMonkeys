@@ -152,6 +152,7 @@ public class ListExpenses extends AppCompatActivity {
                 Intent i = new Intent(ListExpenses.this, NewExpense.class);
                 i.putExtra("fairshareId", fairshareId);
                 startActivity(i);
+                finish();
             }
         });
     }

@@ -109,6 +109,7 @@ public class NewExpense extends AppCompatActivity {
                             Intent i = new Intent(NewExpense.this, ListExpenses.class);
                             i.putExtra("id_fairshare", fairShareId);
                             startActivity(i);
+                            finish();
 
                         } else {
                             Toast.makeText(NewExpense.this, R.string.minimun_amount, Toast.LENGTH_SHORT).show();
