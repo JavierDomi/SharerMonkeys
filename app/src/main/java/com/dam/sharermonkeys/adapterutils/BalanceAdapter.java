@@ -6,11 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dam.sharermonkeys.MainActivity;
@@ -60,12 +62,15 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
         // Verificar si el valor de payments es menor que 0
         if (balance.calculateTotal() < 0) {
             // Cambiar el color del texto del TextView a rojo
-            holder.tvCantidadBalance.setBackgroundColor(Color.RED);
+            int colorRojo = ContextCompat.getColor(context, R.color.red);
+            holder.llCantidadBalance.setBackgroundColor(colorRojo);
         } else if (balance.calculateTotal() > 0) {
-            holder.tvCantidadBalance.setBackgroundColor(Color.GREEN);
+            int colorVerde = ContextCompat.getColor(context, R.color.green);
+            holder.llCantidadBalance.setBackgroundColor(colorVerde);
         } else {
             // Restablecer el color del texto a su valor por defecto
-            holder.tvCantidadBalance.setBackgroundColor(Color.parseColor("#E5E5DC"));
+            int colorShare = ContextCompat.getColor(context, R.color.share);
+            holder.llCantidadBalance.setBackgroundColor(colorShare);
         }
 
         // Obtén el ID de usuario del objeto Expense
@@ -117,6 +122,7 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
         TextView tvUser, tvCantidad;
         TextView tvUserBalance;
         TextView tvCantidadBalance;
+        LinearLayout llCantidadBalance;
 
         public ItemVH(@NonNull View itemView) {
             super(itemView);
@@ -126,6 +132,7 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
             tvCantidad = itemView.findViewById(R.id.tvCantidadBalance);
             tvUserBalance = itemView.findViewById(R.id.tvUserBalance);
             tvCantidadBalance = itemView.findViewById(R.id.tvCantidadBalance);
+            llCantidadBalance = itemView.findViewById(R.id.llCantidadBalance);
 
         }
     }

@@ -17,7 +17,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2.5"
+            android:layout_weight="2"
             android:orientation="vertical"
             android:padding="6dp">
 
@@ -33,7 +33,7 @@
                 android:id="@+id/tvTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="owes to"
+                android:text="owes"
                 android:textSize="14sp"/>
 
             <TextView
@@ -48,23 +48,41 @@
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:orientation="vertical">
 
             <!-- Contenido del segundo LinearLayout -->
-            <TextView
-                android:id="@+id/tvEuro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="0,00€"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/margin_cardview"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvEuro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textStyle="bold"
+                    android:text="0,00"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/euro"/>
+
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/btnPay"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Pay"/>
+                android:text="Mark as paid"
+                android:textSize="10sp"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
