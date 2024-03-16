@@ -48,4 +48,3 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
         }
     }
 }
-

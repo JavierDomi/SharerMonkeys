@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                 String email = String.valueOf(etEmail.getText()).trim();
                 String password = String.valueOf(etPassword.getText()).trim();
 
-
                 if (TextUtils.isEmpty(email)) {
                     etEmail.setError(getString(R.string.enter_email));
                     progBar.setVisibility(View.GONE);
