@@ -45,22 +45,17 @@ public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.It
         holder.cbUser.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                 user.setSelected(isChecked);
-
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
         return participantsList.size();
     }
-
     static class ItemVH extends RecyclerView.ViewHolder {
         CheckBox cbUser;
-
         public ItemVH(@NonNull View itemView) {
             super(itemView);
             cbUser = itemView.findViewById(R.id.cbUser);
@@ -76,5 +71,4 @@ public class NewExpenseAdapter extends RecyclerView.Adapter<NewExpenseAdapter.It
         }
         return selectedUsers;
     }
-
 }

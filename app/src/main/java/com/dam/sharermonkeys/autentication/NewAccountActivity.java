@@ -84,14 +84,12 @@ public class NewAccountActivity extends AppCompatActivity {
                                                 public void onSuccess(Void unused) {
 
                                                     Toast.makeText(NewAccountActivity.this, R.string.user_object_created, Toast.LENGTH_SHORT);
-
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
 
                                             Toast.makeText(NewAccountActivity.this, R.string.error_creating_user_object, Toast.LENGTH_SHORT);
-
                                         }
                                     });
 
@@ -99,8 +97,6 @@ public class NewAccountActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
                             finish();
-
-
 
                         } else {
                             Toast.makeText(NewAccountActivity.this, R.string.account_creation_fail, Toast.LENGTH_SHORT).show();
@@ -116,7 +112,6 @@ public class NewAccountActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         });
     }
@@ -124,21 +119,22 @@ public class NewAccountActivity extends AppCompatActivity {
     private boolean validatePassword() {
         String password;
         password = String.valueOf(etPassword.getText());
-        String confPasswod;
-        confPasswod = String.valueOf(etConfPass.getText());
+        String confPassword;
+        confPassword = String.valueOf(etConfPass.getText());
 
         if(password.isEmpty()){
             Toast.makeText(NewAccountActivity.this, R.string.enter_password, Toast.LENGTH_SHORT).show();
             return false;
+
         }if (password.length()<5){
             Toast.makeText(NewAccountActivity.this, R.string.enter_password_char, Toast.LENGTH_SHORT).show();
             return false;
 
-        }if(!password.equals(confPasswod)) {
+        }if(!password.equals(confPassword)) {
             Toast.makeText(NewAccountActivity.this, R.string.enter_password_noMatch, Toast.LENGTH_SHORT).show();
             return false;
 
-            //contraseña tiene que tener al menos un numero
+            //La contraseña tiene que tener al menos un numero
         }if (!password.matches(".*\\d.*")) {
             // '.*' -> repetido cero o mas veces.
             // '\\d' -> verifica la presencia de un digito
@@ -151,7 +147,6 @@ public class NewAccountActivity extends AppCompatActivity {
             return false;
         }
             return true;
-
     }
 
     private boolean validateEmail(String email) {

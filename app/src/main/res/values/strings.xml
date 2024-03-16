@@ -30,7 +30,7 @@
     <string name="enter_password_char">Password must be at least 5 characters</string>
     <string name="enter_password_noMatch">Passwords do not match</string>
     <string name="set_error_email_invalid">Please enter a valid email address</string>
-    <string name="et_enter_password_digit">Password must have some number</string>
+    <string name="et_enter_password_digit">The password must contain at least one number</string>
     <string name="et_enter_password_letter">The password must contain at least one letter</string>
     <string name="user_name">Username</string>
     <string name="fairShare_list_cancelled">Cancelled</string>
