@@ -1,7 +1,10 @@
 package com.dam.sharermonkeys.fragments;
+import com.dam.sharermonkeys.MainActivity;
 import com.dam.sharermonkeys.adapterutils.OwesAdapter;
 import com.google.firebase.database.DatabaseError;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 import com.dam.sharermonkeys.R;
@@ -22,6 +26,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -35,7 +41,8 @@ public class BalanceFragment extends Fragment {
     ArrayList<Balance> balances;
     BalanceAdapter balanceAdapter;
     OwesAdapter owesAdapter;
-    String fairShareId;
+    String fairshareId;
+    TextView tvUserBalance, tvCantidadBalance;
 
 
     @Override
@@ -47,15 +54,14 @@ public class BalanceFragment extends Fragment {
         //Obtenemos argumentos del fragmento
         Bundle args = getArguments();
         if (args != null) {
-            fairShareId = args.getString("id_fairshare");
+            fairshareId = args.getString("id_fairshare");
         } else {
             // Manejar el caso donde no hay argumentos pasados.
             Log.e("BalanceFragment", "No se pasaron argumentos al fragmento.");
             // Considera cerrar el fragmento o mostrar un mensaje adecuado.
         }
 
-        // Obtener el fairshareId de los argumentos
-        fairShareId = getArguments().getString("id_fairshare");
+
         // Inicializar el RecyclerView y el adaptador
         recyclerViewBalance = view.findViewById(R.id.rvGrafic);
         recyclerViewBalance.setHasFixedSize(true);
@@ -90,7 +96,7 @@ public class BalanceFragment extends Fragment {
         DatabaseReference balancesRef = reference.child("Balance");
 
         // Consulta para filtrar los balances por el ID del FairShare
-        balancesRef.orderByChild("id_fairshare").equalTo(fairShareId).addListenerForSingleValueEvent(new ValueEventListener() {
+        balancesRef.orderByChild("id_fairshare").equalTo(fairshareId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 balances.clear();
@@ -118,4 +124,6 @@ public class BalanceFragment extends Fragment {
             }
         });
     }
+
+
 }

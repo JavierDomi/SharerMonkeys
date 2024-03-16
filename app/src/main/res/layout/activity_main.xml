@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/share"
+    android:paddingBottom="@dimen/margin_cardview"
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -22,8 +23,7 @@
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-
-        android:textSize="25dp"
+        android:textSize="24sp"
         android:background="@drawable/rounded_button_background"
         android:text="@string/btn_add_new"/>
 

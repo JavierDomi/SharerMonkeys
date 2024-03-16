@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/recCardBalance"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -7,6 +7,7 @@
     android:layout_margin="0.5dp">
 
     <LinearLayout
+        android:background="@color/share"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -14,24 +15,37 @@
         <TextView
             android:id="@+id/tvUserBalance"
             android:layout_width="0dp"
-            android:background="@color/share"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="User 1"
             android:textStyle="bold"
-            android:textAlignment="center"/>
+            android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/tvCantidadBalance"
+        <LinearLayout
+            android:id="@+id/llCantidadBalance"
             android:layout_width="0dp"
-            android:background="@color/share"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="0,00€"
-            android:textStyle="bold"
-            android:textAlignment="center"/>
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_cardview"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvCantidadBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0,00"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/euro"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+
     </LinearLayout>
-
-
 
 </androidx.cardview.widget.CardView>

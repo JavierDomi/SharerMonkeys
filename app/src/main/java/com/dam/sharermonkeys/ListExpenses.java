@@ -2,18 +2,21 @@ package com.dam.sharermonkeys;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 
 import com.dam.sharermonkeys.adapterutils.ExpenseListAdapter;
+import com.dam.sharermonkeys.autentication.LoginActivity;
 import com.dam.sharermonkeys.fragments.BalanceFragment;
 import com.dam.sharermonkeys.pojos.Balance;
 import com.dam.sharermonkeys.pojos.Expense;
@@ -300,15 +304,68 @@ public class ListExpenses extends AppCompatActivity {
 
     }
 
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed(); // Volver a la actividad anterior
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Finaliza la actividad actual para volver a MainActivity
+            finish();
+            return true;
+
+        } else if (item.getItemId() == R.id.mnLogOut) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(ListExpenses.this);
+            builder.setCancelable(false);
+            builder.setTitle(R.string.tit_dialog_exit);
+            builder.setMessage(R.string.message_dialog_exit);
+            builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(ListExpenses.this, LoginActivity.class);
+
+                    /* Se establecen los flags en el intent para limpiar la pila de actividades
+                    y crear una nueva tarea para la actividad de inicio de sesion.*/
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish(); // Se finaliza la actividad actual
+                }
+            });
+            builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        } else if (item.getItemId() == R.id.mnExit) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(ListExpenses.this);
+            builder.setCancelable(false);
+            builder.setTitle(R.string.tit_dialog_exit);
+            builder.setMessage(R.string.message_dialog_exit);
+            builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // finalizara todas las actividades actualmente en ejecucion
+                    finishAffinity();
+                    System.exit(0);
+                }
+            });
+            builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
+        return super.onOptionsItemSelected(item);
     }
 
 

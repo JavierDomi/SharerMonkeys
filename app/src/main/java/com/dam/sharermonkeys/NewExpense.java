@@ -1,14 +1,19 @@
 package com.dam.sharermonkeys;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,6 +52,9 @@ public class NewExpense extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_expense);
+
+        // Inicializar UI
+        initializeUI();
 
         databaseReference = FirebaseDatabase.getInstance(MainActivity.REALTIME_PATH).getReference();
 
@@ -293,6 +301,25 @@ public class NewExpense extends AppCompatActivity {
             }
         });
 
+    }
+    private void initializeUI() {
+        // Configurar la barra de acción
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2B2B2B")));
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white); // Establecer el icono de la flecha blanca
+        actionBar.setDisplayHomeAsUpEnabled(true); // Agregar el boton de flecha para ir atras
+        actionBar.setTitle(Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>"));
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // ID del botón de retroceso en la ActionBar
+        if (item.getItemId() == android.R.id.home) {
+            // Finaliza la actividad actual para volver a MainActivity
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
