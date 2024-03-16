@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.FairShareListAdapter;
 import com.dam.sharermonkeys.autentication.LoginActivity;
-import com.dam.sharermonkeys.fragments.BalanceFragment;
 import com.dam.sharermonkeys.pojos.User;
 
 
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                finish();
+                                finishAffinity();
                                 System.exit(0);
                             }
                         })
@@ -139,8 +138,10 @@ public class MainActivity extends AppCompatActivity{
             builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    // Finaliza todas las actividades y sale de la aplicación
+                    finishAffinity();
                     System.exit(0);
+
                 }
             });
             builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {

@@ -83,7 +83,6 @@ public class NewExpense extends AppCompatActivity {
                 String title = etTitle.getText().toString();
                 String date = etDate.getText().toString();
                 String sAmount = etAmount.getText().toString();
-                // payer = selectedPayer
                 ArrayList<User> participants = adapterNewExpense.getSelectedUsers();
 
                 if (!title.equals("") && !date.equals("") && !sAmount.equals("") && participants.size() > 0) {
@@ -109,6 +108,7 @@ public class NewExpense extends AppCompatActivity {
                             Intent i = new Intent(NewExpense.this, ListExpenses.class);
                             i.putExtra("id_fairshare", fairShareId);
                             startActivity(i);
+                            finish();
 
                         } else {
                             Toast.makeText(NewExpense.this, R.string.minimun_amount, Toast.LENGTH_SHORT).show();

@@ -102,10 +102,6 @@
                             DatabaseReference newFairShareRef = usersRef.push(); // Crear una nueva referencia para el nuevo fairShare
                             String fairShareId = newFairShareRef.getKey();
 
-                            /*newFairShare.setName(title);
-                            newFairShare.setDescription(desc);
-                            newFairShare.setUserList(participantsList);*/
-
                             Map<String, Object> newFairShare = new HashMap<>();
                             newFairShare.put("name", title);
                             newFairShare.put("description", desc);

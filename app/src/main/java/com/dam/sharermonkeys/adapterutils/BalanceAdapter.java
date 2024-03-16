@@ -1,7 +1,6 @@
 package com.dam.sharermonkeys.adapterutils;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,14 +31,11 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
     Context context;
     DatabaseReference databaseReference;
 
-
-
     public BalanceAdapter(ArrayList<Balance> balancesList, Context context) {
         this.balancesList = balancesList;
         this.context = context;
         this.databaseReference = FirebaseDatabase.getInstance(MainActivity.REALTIME_PATH).getReference();;
     }
-
 
     @NonNull
     @Override
@@ -58,17 +54,14 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
         double roundedTotal = Math.round(total * 100.0) / 100.0; // Redondea a dos decimales
         holder.tvCantidad.setText(String.format("%.2f", roundedTotal));
 
-
         // Verificar si el valor de payments es menor que 0
         if (balance.calculateTotal() < 0) {
-            // Cambiar el color del texto del TextView a rojo
             int colorRojo = ContextCompat.getColor(context, R.color.red);
             holder.llCantidadBalance.setBackgroundColor(colorRojo);
         } else if (balance.calculateTotal() > 0) {
             int colorVerde = ContextCompat.getColor(context, R.color.green);
             holder.llCantidadBalance.setBackgroundColor(colorVerde);
         } else {
-            // Restablecer el color del texto a su valor por defecto
             int colorShare = ContextCompat.getColor(context, R.color.share);
             holder.llCantidadBalance.setBackgroundColor(colorShare);
         }
@@ -116,11 +109,8 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
     }
 
     public static class ItemVH extends RecyclerView.ViewHolder {
-
         CardView recCardBalance;
         TextView tvUser, tvCantidad;
-        TextView tvUserBalance;
-        TextView tvCantidadBalance;
         LinearLayout llCantidadBalance;
 
         public ItemVH(@NonNull View itemView) {
@@ -129,11 +119,8 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
             recCardBalance = itemView.findViewById(R.id.recCardBalance);
             tvUser = itemView.findViewById(R.id.tvUserBalance);
             tvCantidad = itemView.findViewById(R.id.tvCantidadBalance);
-            tvUserBalance = itemView.findViewById(R.id.tvUserBalance);
-            tvCantidadBalance = itemView.findViewById(R.id.tvCantidadBalance);
             llCantidadBalance = itemView.findViewById(R.id.llCantidadBalance);
 
         }
     }
-
 }

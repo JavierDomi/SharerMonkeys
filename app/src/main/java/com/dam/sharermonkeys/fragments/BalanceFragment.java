@@ -1,14 +1,10 @@
 package com.dam.sharermonkeys.fragments;
-import com.dam.sharermonkeys.MainActivity;
 import com.dam.sharermonkeys.adapterutils.OwesAdapter;
 import com.dam.sharermonkeys.intefaces.FetchBalancesCallback;
-import com.dam.sharermonkeys.intefaces.UpdateListener;
-import com.dam.sharermonkeys.pojos.Expense;
+
 import com.dam.sharermonkeys.pojos.Transaction;
 import com.google.firebase.database.DatabaseError;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -32,14 +27,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BalanceFragment extends Fragment implements FetchBalancesCallback, UpdateListener {
+public class BalanceFragment extends Fragment implements FetchBalancesCallback {
 
     public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
 
@@ -64,9 +58,8 @@ public class BalanceFragment extends Fragment implements FetchBalancesCallback, 
         if (args != null) {
             fairshareId = args.getString("id_fairshare");
         } else {
-            // Manejar el caso donde no hay argumentos pasados.
+            // Manejar el caso donde no hay argumentos pasados
             Log.e("BalanceFragment", "No se pasaron argumentos al fragmento.");
-            // Considera cerrar el fragmento o mostrar un mensaje adecuado.
         }
 
         balances = new ArrayList<>();
@@ -92,11 +85,12 @@ public class BalanceFragment extends Fragment implements FetchBalancesCallback, 
         recyclerViewOwes = view.findViewById(R.id.rvOwesTo);
         recyclerViewOwes.setHasFixedSize(true);
         recyclerViewOwes.setLayoutManager(new LinearLayoutManager(getActivity()));
-        owesAdapter = new OwesAdapter(transactions,fairshareId, getActivity());
+        owesAdapter = new OwesAdapter(transactions, getActivity());
         recyclerViewOwes.setAdapter(owesAdapter);
 
         return view;
     }
+
 
     private ArrayList<Transaction> calculateTransactions() {
 
@@ -183,14 +177,12 @@ public class BalanceFragment extends Fragment implements FetchBalancesCallback, 
     @Override
     public void onBalancesFetched() {
 
-        transactions = calculateTransactions();
+        Toast.makeText(getContext(), String.valueOf(balances.size()), Toast.LENGTH_SHORT).show();
+
+        transactions = calculateTransactions(); // Llamar a calculateTransactions() aquí
         owesAdapter.notifyDataSetChanged();
 
     }
 
 
-    @Override
-    public void onUpdateCompleted() {
-        fetchBalances(this);
-    }
 }

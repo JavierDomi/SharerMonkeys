@@ -9,6 +9,6 @@
         android:id="@+id/action_bar_logo_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/fairshare2_small" /> <!-- Asegúrate de usar tu propio drawable aquí -->
+        android:src="@drawable/fairshare2_small" />
 
 </LinearLayout>
