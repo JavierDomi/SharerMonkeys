@@ -51,8 +51,6 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
 
         Balance balance = balancesList.get(position);
 
-        //TODO:
-
         holder.tvUser.setText(balance.getIdUser());
         holder.tvCantidad.setText(String.valueOf(balance.calculateTotal()));
 
@@ -89,12 +87,11 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String userName = dataSnapshot.getValue(String.class);
-                    System.out.println("USERNAME" + userName);
+                    System.out.println("USERNAME: " + userName);
                     tvUser.setText(userName);
                 } else {
                     tvUser.setText("ERROR");
                     Toast.makeText(context, R.string.username_not_found, Toast.LENGTH_SHORT).show();
-                    System.out.println("NO ESTA");
                 }
             }
 
