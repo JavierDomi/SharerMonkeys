@@ -177,7 +177,7 @@ public class BalanceFragment extends Fragment implements FetchBalancesCallback {
     @Override
     public void onBalancesFetched() {
 
-        transactions = calculateTransactions(); // Llamar a calculateTransactions() aquí
+        transactions = calculateTransactions();
         owesAdapter.notifyDataSetChanged();
 
     }

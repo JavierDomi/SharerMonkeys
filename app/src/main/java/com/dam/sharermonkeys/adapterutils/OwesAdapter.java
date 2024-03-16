@@ -210,7 +210,5 @@ public class OwesAdapter extends RecyclerView.Adapter<OwesAdapter.ItemVH> {
             btnPay = itemView.findViewById(R.id.btnPay);
         }
     }
-    public void setUpdateListener(UpdateListener listener) {
-        this.updateListener = listener;
-    }
+
 }

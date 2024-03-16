@@ -49,7 +49,7 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
 
         Balance balance = balancesList.get(position);
 
-        holder.tvUser.setText(balance.getIdUser());
+        //holder.tvUser.setText(balance.getIdUser());
         double total = balance.calculateTotal();
         double roundedTotal = Math.round(total * 100.0) / 100.0; // Redondea a dos decimales
         holder.tvCantidad.setText(String.format("%.2f", roundedTotal));
