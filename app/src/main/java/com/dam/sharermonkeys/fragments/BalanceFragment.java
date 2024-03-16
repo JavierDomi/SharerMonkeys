@@ -1,5 +1,6 @@
 package com.dam.sharermonkeys.fragments;
 import com.dam.sharermonkeys.MainActivity;
+import com.dam.sharermonkeys.adapterutils.OwesAdapter;
 import com.google.firebase.database.DatabaseError;
 
 import android.content.Intent;
@@ -35,9 +36,11 @@ public class BalanceFragment extends Fragment {
     public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
 
     RecyclerView recyclerViewBalance;
+    RecyclerView recyclerViewOwes;
     DatabaseReference reference;
     ArrayList<Balance> balances;
     BalanceAdapter balanceAdapter;
+    OwesAdapter owesAdapter;
     String fairshareId;
     TextView tvUserBalance, tvCantidadBalance;
 
@@ -59,16 +62,25 @@ public class BalanceFragment extends Fragment {
 
         // Obtener el fairshareId de los argumentos
         fairshareId = getArguments().getString("id_fairshare");
-
         // Inicializar el RecyclerView y el adaptador
         recyclerViewBalance = view.findViewById(R.id.rvGrafic);
         recyclerViewBalance.setHasFixedSize(true);
         recyclerViewBalance.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         // Inicializar la lista de balances
         balances = new ArrayList<>();
         balanceAdapter = new BalanceAdapter(balances,getActivity());
         recyclerViewBalance.setAdapter(balanceAdapter);
+
+
+
+        //SEGUNDO RECYCLERVIEW DE OWES
+        recyclerViewOwes = view.findViewById(R.id.rvOwesTo);
+        recyclerViewOwes.setHasFixedSize(true);
+        recyclerViewOwes.setLayoutManager(new LinearLayoutManager(getActivity()));
+        owesAdapter = new OwesAdapter(balances, getActivity());
+        recyclerViewOwes.setAdapter(owesAdapter);
+
+
 
         // Obtener una referencia a la base de datos
         reference = FirebaseDatabase.getInstance(REALTIME_PATH).getReference();
