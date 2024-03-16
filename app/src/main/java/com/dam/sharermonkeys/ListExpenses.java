@@ -16,6 +16,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,6 +64,8 @@ public class ListExpenses extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_expenses);
+
+
 
         // Inicializar UI
         initializeUI();
@@ -297,10 +301,28 @@ public class ListExpenses extends AppCompatActivity {
     private void initializeUI() {
         // Configurar la barra de acción
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2B2B2B")));
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white); // Establecer el icono de la flecha blanca
-        actionBar.setDisplayHomeAsUpEnabled(true); // Agregar el boton de flecha para ir atras
-        actionBar.setTitle(Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>"));
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false); // Desactiva el logo predeterminado
+            actionBar.setDisplayShowTitleEnabled(false); // Desactiva el título predeterminado
+
+            // Inflar la vista personalizada
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View customView = inflater.inflate(R.layout.action_bar_logo, null);
+
+            // Configura las opciones de layout para centrar la vista
+            ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+                    ActionBar.LayoutParams.WRAP_CONTENT,
+                    ActionBar.LayoutParams.WRAP_CONTENT,
+                    Gravity.CENTER);
+
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#2B2B2B")));
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white); // Establecer el icono de la flecha blanca
+            actionBar.setDisplayHomeAsUpEnabled(true); // Agregar el boton de flecha para ir atras
+            actionBar.setTitle(Html.fromHtml("<font color=\"#2B2B2B\">" + getString(R.string.app_name) + "</font>"));
+
+            actionBar.setCustomView(customView, params);
+            actionBar.setDisplayShowCustomEnabled(true); // Habilita la vista personalizada
+        }
 
     }
 

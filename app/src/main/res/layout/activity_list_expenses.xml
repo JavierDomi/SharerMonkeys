@@ -8,12 +8,15 @@
     android:background="@color/share"
     tools:context=".ListExpenses">
 
+
+
     <LinearLayout
         android:id="@+id/llBotones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         tools:ignore="MissingConstraints">
+
 
         <Button
             android:id="@+id/btnExpenses"
