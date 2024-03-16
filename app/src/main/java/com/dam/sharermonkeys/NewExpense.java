@@ -83,7 +83,6 @@ public class NewExpense extends AppCompatActivity {
                 String title = etTitle.getText().toString();
                 String date = etDate.getText().toString();
                 String sAmount = etAmount.getText().toString();
-                // payer = selectedPayer
                 ArrayList<User> participants = adapterNewExpense.getSelectedUsers();
 
                 if (!title.equals("") && !date.equals("") && !sAmount.equals("") && participants.size() > 0) {

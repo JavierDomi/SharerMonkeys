@@ -48,12 +48,9 @@ public class ListExpenses extends AppCompatActivity {
 
     public static final String REALTIME_PATH = "https://fairshare-ae0be-default-rtdb.europe-west1.firebasedatabase.app/";
     RecyclerView recyclerViewExpenses;
-    //RecyclerView recyclerViewBalance;
     DatabaseReference reference;
     ArrayList<Expense> list;
-   // ArrayList<Balance> balances;
     ExpenseListAdapter adapter;
-   // BalanceAdapter balanceAdapter;
     String fairshareId;
     Button btnBalance, btnExpenses, btnNewExpense;;
     ImageView imgExpenses, imgBalance;
@@ -64,8 +61,6 @@ public class ListExpenses extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_expenses);
-
-
 
         // Inicializar UI
         initializeUI();
@@ -88,7 +83,6 @@ public class ListExpenses extends AppCompatActivity {
         recyclerViewExpenses = findViewById(R.id.rvListExpenses);
         recyclerViewExpenses.setHasFixedSize(true);
         recyclerViewExpenses.setLayoutManager(new LinearLayoutManager(this));
-
 
 
         // Inicializar los botones
@@ -205,11 +199,6 @@ public class ListExpenses extends AppCompatActivity {
                                         balance.setIdUser(snapshot.child("id_user").getValue(String.class));
                                         balance.setExpenses(snapshot.child("expenses").getValue(Double.class));
 
-                                        System.out.println("EN FOR DE LISTEXPENSES Payments: " + balance.getPayments());
-                                        System.out.println("EN FOR DE LISTEXPENSES Expenses: " + balance.getExpenses());
-                                        System.out.println("EN FOR DE LISTEXPENSES UserId: " + balance.getIdUser());
-                                        System.out.println("EN FOR DE LISTEXPENSES FairShareId: " + balance.getIdFareshare());
-
                                         // Verificar si el balance pertenece al usuario
                                         String idUser = snapshot.child("id_user").getValue(String.class);
                                         if (idUser != null && idUser.equals(userId[0])) {
@@ -218,10 +207,6 @@ public class ListExpenses extends AppCompatActivity {
                                         }
                                     }
                                 }
-
-                                // Imprimir los resultados
-                                Log.d("USER_EXPENSES", "Total expenses for user: " + userExpenses);
-                                Log.d("TOTAL_FAIRSHARE_EXPENSES", "Total expenses in FairShare: " + totalFairShareExpenses);
 
                                 tvMyToal.setText(String.valueOf(userExpenses));
                                 tvTotalExpenses.setText(String.valueOf(totalFairShareExpenses));
@@ -271,19 +256,16 @@ public class ListExpenses extends AppCompatActivity {
                     //Set manually porque firebase no fufa bien
                     String userIdPayer = snapshot.child("idUserPayer").getValue(String.class);
                     expense.setIdUserPayer(userIdPayer);
-                    System.out.println("ID PAYER: " + userIdPayer);
-                    System.out.println("ID PAYER EXPENSE: " + expense.getIdUserPayer());
 
                     if (expense.getIdFairshare().equals(fairshareId)) {
                         // Agregar el gasto a la lista solo si coincide con el ID del FairShare actual
                         list.add(expense);
-                        System.out.println(expense.getIdUserPayer());
-                        Log.d("LISTEXPENSES", "Expense: " + expense.getName());
+
                     }
                 }
                 // Notificar al adaptador que los datos han cambiado
                 adapter.notifyDataSetChanged();
-                Log.d("LISTEXPENSES", "Number of items in list: " + list.size());
+
             }
 
             @Override
@@ -293,10 +275,6 @@ public class ListExpenses extends AppCompatActivity {
                 Toast.makeText(ListExpenses.this, R.string.db_error, Toast.LENGTH_SHORT).show();
             }
         });
-
-        Log.e("ExpenseListSize", "Size: " + String.valueOf(list.size()));
-        Log.e("FairShare id", fairshareId);
-
     }
 
     private void initializeUI() {

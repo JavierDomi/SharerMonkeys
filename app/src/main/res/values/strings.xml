@@ -64,7 +64,7 @@
 
     <string name="complete_all_fields">You must fill in all fields</string>
     <string name="unable_fetch_fairShare">Unable to fetch fairShare</string>
-    <string name="db_error">Database Error :(</string>
+    <string name="db_error">Database Error</string>
     <string name="unable_fetch_username">Unable to fetch username</string>
     <string name="username_not_found">Username not found</string>
     <string name="user_id_null">User id not found</string>

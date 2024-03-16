@@ -1,13 +1,10 @@
 package com.dam.sharermonkeys.fragments;
-import com.dam.sharermonkeys.MainActivity;
 import com.dam.sharermonkeys.adapterutils.OwesAdapter;
 import com.dam.sharermonkeys.intefaces.FetchBalancesCallback;
-import com.dam.sharermonkeys.pojos.Expense;
+
 import com.dam.sharermonkeys.pojos.Transaction;
 import com.google.firebase.database.DatabaseError;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -31,7 +27,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,9 +58,8 @@ public class BalanceFragment extends Fragment implements FetchBalancesCallback {
         if (args != null) {
             fairshareId = args.getString("id_fairshare");
         } else {
-            // Manejar el caso donde no hay argumentos pasados.
+            // Manejar el caso donde no hay argumentos pasados
             Log.e("BalanceFragment", "No se pasaron argumentos al fragmento.");
-            // Considera cerrar el fragmento o mostrar un mensaje adecuado.
         }
 
         balances = new ArrayList<>();

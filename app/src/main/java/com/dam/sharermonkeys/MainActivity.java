@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.dam.sharermonkeys.adapterutils.FairShareListAdapter;
 import com.dam.sharermonkeys.autentication.LoginActivity;
-import com.dam.sharermonkeys.fragments.BalanceFragment;
 import com.dam.sharermonkeys.pojos.User;
 
 
