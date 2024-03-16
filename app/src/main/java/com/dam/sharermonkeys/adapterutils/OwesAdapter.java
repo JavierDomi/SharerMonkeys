@@ -66,8 +66,6 @@ public class OwesAdapter extends RecyclerView.Adapter<OwesAdapter.ItemVH> {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(context, "click", Toast.LENGTH_SHORT).show();
-
                 updateBalances(transaction.getDeudor(), transaction.getAcreedor(), transaction.getCantidad());
 
                 notifyDataSetChanged();

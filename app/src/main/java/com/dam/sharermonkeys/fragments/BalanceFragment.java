@@ -85,7 +85,7 @@ public class BalanceFragment extends Fragment implements FetchBalancesCallback {
         recyclerViewOwes = view.findViewById(R.id.rvOwesTo);
         recyclerViewOwes.setHasFixedSize(true);
         recyclerViewOwes.setLayoutManager(new LinearLayoutManager(getActivity()));
-        owesAdapter = new OwesAdapter(transactions, getActivity());
+        owesAdapter = new OwesAdapter(transactions, fairshareId, getActivity());
         recyclerViewOwes.setAdapter(owesAdapter);
 
         return view;
@@ -176,8 +176,6 @@ public class BalanceFragment extends Fragment implements FetchBalancesCallback {
 
     @Override
     public void onBalancesFetched() {
-
-        Toast.makeText(getContext(), String.valueOf(balances.size()), Toast.LENGTH_SHORT).show();
 
         transactions = calculateTransactions(); // Llamar a calculateTransactions() aquí
         owesAdapter.notifyDataSetChanged();
