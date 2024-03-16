@@ -79,8 +79,6 @@ public class BalanceFragment extends Fragment {
         return view;
     }
 
-
-
     private void fetchBalances() {
         // Referencia a la ubicación de los balances en la base de datos
         DatabaseReference balancesRef = reference.child("Balance");
@@ -97,8 +95,6 @@ public class BalanceFragment extends Fragment {
                         balance.setIdUser(userId);
                         balances.add(balance);
                         Log.d("LISTBALANCES", "Balance: " + balance.getIdUser());
-
-
                     }
                 }
                 if (!balances.isEmpty()) {
@@ -113,15 +109,6 @@ public class BalanceFragment extends Fragment {
                 Log.e("LISTBALANCES", "Firebase Database Error: " + error.getMessage());
 
             }
-
         });
-
-
-
     }
-
-
-
-
-
 }

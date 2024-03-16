@@ -54,14 +54,14 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.ItemVH> 
         //TODO:
 
         holder.tvUser.setText(balance.getIdUser());
-        holder.tvCantidad.setText(String.valueOf(balance.getPayments()));
+        holder.tvCantidad.setText(String.valueOf(balance.calculateTotal()));
 
 
         // Verificar si el valor de payments es menor que 0
-        if (balance.getPayments() < 0) {
+        if (balance.calculateTotal() < 0) {
             // Cambiar el color del texto del TextView a rojo
             holder.tvCantidadBalance.setBackgroundColor(Color.RED);
-        } if (balance.getPayments() > 0) {
+        } else if (balance.calculateTotal() > 0) {
             holder.tvCantidadBalance.setBackgroundColor(Color.GREEN);
         } else {
             // Restablecer el color del texto a su valor por defecto
